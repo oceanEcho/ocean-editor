@@ -1,0 +1,10 @@
+@import '../../styles/styles.scss';
+
+.editor {
+  width: 877px;
+  min-height: 1240px;
+  background-color: $ligth-color;
+  border-radius: 2px;
+  padding: 40px 60px;
+  box-sizing: border-box;
+}

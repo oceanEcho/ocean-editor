@@ -1,0 +1,15 @@
+@import '../../styles/styles.scss';
+
+.root {
+  position: sticky;
+  top: 0;
+  box-sizing: border-box;
+  display: flex;
+  width: 100%;
+  justify-content: left;
+  color: $ligth-color;
+  min-height: 60px;
+  padding: 20px;
+  background-color: $second-color;
+  @include bottom-shadow;
+}

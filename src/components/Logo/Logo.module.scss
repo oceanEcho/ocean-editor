@@ -1,0 +1,15 @@
+@import '../../styles/styles.scss';
+
+.root {
+  display: flex;
+  align-items: flex-end;
+  cursor: pointer;
+}
+
+.icon {
+  margin-right: 10px;
+}
+
+.text {
+  font-size: 32px;
+}
