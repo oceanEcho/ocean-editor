@@ -11,7 +11,7 @@ export const Logo: FunctionComponent<ILogoProps> = ({ onClick }) => {
   return (
     <div className={styles.root} onClick={onClick}>
       <Icon className={styles.icon} type="notebook" />
-      <h1 className={styles.text}>My awesome editor</h1>
+      <h1 className={styles.text}>Studier</h1>
     </div>
   );
 };

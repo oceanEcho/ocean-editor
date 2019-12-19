@@ -12,19 +12,15 @@
   box-sizing: border-box;
   @include full-shadow;
 
-  & img {
+  & * {
     padding-bottom: 20px;
-
-    &:hover {
-      cursor: pointer;
-    }
   }
 }
 
 .left {
-  left: 5px;
+  left: 10px;
 }
 
 .right {
-  right: 5px;
+  right: 10px;
 }
