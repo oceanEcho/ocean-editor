@@ -11,6 +11,8 @@
     "@types/react": "^16.9.16",
     "@types/react-dom": "^16.9.4",
     "classnames": "^2.2.6",
+    "combine-section-reducers": "^1.0.6",
+    "connected-react-router": "^6.6.1",
     "draft-js": "^0.11.3",
     "node-sass": "^4.13.0",
     "react": "^16.12.0",

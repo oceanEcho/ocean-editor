@@ -1,0 +1,10 @@
+.col {
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+  padding-right: 20px;
+
+  &:last-child {
+    padding-right: 0px;
+  }
+}

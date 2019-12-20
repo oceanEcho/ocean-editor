@@ -1,0 +1,17 @@
+.row {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  margin-left: 20px;
+  margin-right: 20px;
+
+  & + .row {
+    margin-top: 20px;
+  }
+}
+
+.fullwidth {
+  margin-left: 0px;
+  margin-right: 0px;
+  width: 100%;
+}

@@ -1,0 +1,11 @@
+@import '../../styles/styles.scss';
+
+.root {
+  background-color: $second-color;
+  color: $ligth-color;
+  border-radius: 2px;
+  display: flex;
+  padding: 20px;
+  margin: 10px;
+  @include full-shadow;
+}

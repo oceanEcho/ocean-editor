@@ -1,0 +1,24 @@
+.root {
+  cursor: pointer;
+  text-decoration: none;
+  color: inherit;
+
+  &:disabled {
+    pointer-events: none;
+    cursor: default;
+  }
+}
+
+.link {
+  &:hover {
+    text-decoration: underline;
+    color: inherit;
+  }
+}
+
+.none {
+  &:hover {
+    text-decoration: none;
+    color: inherit;
+  }
+}
