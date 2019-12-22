@@ -8,6 +8,7 @@ import styles from './App.module.scss';
 import { routes } from './routes';
 import { Document } from '../pages/Document/Document';
 import { Home } from '../pages/Home';
+import { Login } from '../pages/Login';
 
 export interface IAppProps {
   history: History;
@@ -20,6 +21,9 @@ const App: FunctionComponent<IAppProps> = ({ history }) => {
         <Switch>
           <Route path={routes.DOCUMENT.path}>
             <Document />
+          </Route>
+          <Route path={routes.LOGIN.path}>
+            <Login />
           </Route>
           <Route path={routes.HOME.path}>
             <Home />

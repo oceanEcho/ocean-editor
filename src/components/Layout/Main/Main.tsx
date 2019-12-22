@@ -1,4 +1,5 @@
 import React, { FunctionComponent, ReactNode } from 'react';
+import cn from 'classnames';
 
 import styles from './Main.module.scss';
 
@@ -8,7 +9,8 @@ export interface IMainProps {
 }
 
 export const Main: FunctionComponent<IMainProps> = ({className = '', children}) => {
-  return <main className={styles.content}>
+  const rootClassName = cn(styles.content, className);
+  return <main className={rootClassName}>
     {children}
   </main>
 }

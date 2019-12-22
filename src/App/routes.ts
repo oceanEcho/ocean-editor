@@ -5,4 +5,7 @@ export const routes = {
   DOCUMENT: {
     path: '/document',
   },
+  LOGIN: {
+    path: '/login',
+  },
 };

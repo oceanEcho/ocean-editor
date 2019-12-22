@@ -26,6 +26,6 @@ export const Layout: FunctionComponent<ILayoutProps> = ({ children }) => {
     <Main>
       {children}
     </Main>
-    <Footer>© 2019 Ivan Zaitsev | About | Contact</Footer>
+    <Footer />
   </>
 }
