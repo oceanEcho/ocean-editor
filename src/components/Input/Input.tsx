@@ -5,9 +5,10 @@ import styles from './Input.module.scss';
 
 export interface IInputProps {
   className?: string;
+  placeholder?: string;
 }
 
-export const Input: FunctionComponent<IInputProps> = ({ className = '' }) => {
+export const Input: FunctionComponent<IInputProps> = ({ className = '', placeholder }) => {
   const rootClassName = cn(styles.root, className);
-  return <input className={rootClassName}></input>;
+  return <input className={rootClassName} placeholder={placeholder}></input>;
 };

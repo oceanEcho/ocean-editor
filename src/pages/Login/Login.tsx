@@ -10,7 +10,7 @@ export const Login: FunctionComponent<{}> = () => {
   return (
     <>
       <Main className={styles.main}>
-        <LoginForm />
+        <LoginForm className={styles.form}/>
       </Main>
       <Footer />
     </>

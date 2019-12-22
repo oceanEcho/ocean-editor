@@ -1,5 +1,15 @@
+@import '../../styles/styles.scss';
+
 .root {
-  border: 1px solid white;
-  border-radius: 2px;
-  padding: 10px;
+  border: none;
+  border-bottom: 1px solid $ligth-color;
+  padding: 0px 8px 8px 8px;
+  color: $ligth-color;
+  background-color: inherit;
+  width: 250px;
+
+  &::placeholder {
+    color: $ligth-color;
+    opacity: 0.5;
+  }
 }

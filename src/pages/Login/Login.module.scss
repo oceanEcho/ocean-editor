@@ -1,3 +1,10 @@
+@import '../../styles/styles.scss';
+
 .main {
   align-items: center;
+}
+
+.form {
+  background-color: inherit;
+  @include no-shadow;
 }

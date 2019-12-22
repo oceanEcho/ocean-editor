@@ -19,7 +19,7 @@ export const Row: FunctionComponent<Props> = ({
 }) => {
   const style = { justifyContent: justify };
 
-  const rowClassName = cn(styles.row, className, { [styles.fullwidth]: fullwidth });
+  const rowClassName = cn(styles.row, { [styles.fullwidth]: fullwidth, className });
 
   return (
     <div className={rowClassName} style={style}>
