@@ -1,7 +1,8 @@
 @import './reset';
 @import './styles.scss';
 
-body, html {
+body,
+html {
   margin: 0;
   padding: 0;
   width: 100%;
@@ -13,7 +14,7 @@ body {
     'Droid Sans', 'Helvetica Neue', sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  background-color: $main-color;
+  background-color: $background-color;
 }
 
 code {

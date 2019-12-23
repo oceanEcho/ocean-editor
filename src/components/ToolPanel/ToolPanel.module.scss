@@ -1,21 +1,37 @@
 @import '../../styles/styles.scss';
 
 @keyframes leftPopUp {
-  0%   {left: -100px;}
-  25%  {left: -50px;}
-  70%  {left: 15px;}
-  100% {left: 10px;}
+  0% {
+    left: -100px;
+  }
+  25% {
+    left: -50px;
+  }
+  70% {
+    left: 15px;
+  }
+  100% {
+    left: 10px;
+  }
 }
 
 @keyframes rightPopUp {
-  0%   {right: -100px;}
-  25%  {right: -50px;}
-  70%  {right: 15px;}
-  100% {right: 10px;}
+  0% {
+    right: -100px;
+  }
+  25% {
+    right: -50px;
+  }
+  70% {
+    right: 15px;
+  }
+  100% {
+    right: 10px;
+  }
 }
 
 .root {
-  background-color: $second-color;
+  background-color: $main-color;
   position: fixed;
   top: 82px;
   border-radius: 2px;
