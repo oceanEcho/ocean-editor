@@ -14,5 +14,9 @@ export const Header: FunctionComponent<IHeaderProps> = ({
 }) => {
   const rootClassName = cn(styles.root, className);
 
-  return <header className={rootClassName}>{children}</header>;
+  return <header className={rootClassName}>
+    <div className={styles.content}>
+      {children}
+    </div>
+  </header>;
 };

@@ -6,10 +6,15 @@
   box-sizing: border-box;
   display: flex;
   width: 100%;
-  justify-content: left;
+  justify-content: center;
   color: $ligth-color;
   min-height: 60px;
   padding: 20px;
   background-color: $main-color;
   @include bottom-shadow;
+}
+
+.content {
+  max-width: 1200px;
+  width: 80%;
 }
