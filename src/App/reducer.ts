@@ -1,21 +1,22 @@
 import { AnyAction } from 'redux';
 
 export interface IAppState {
-  theme: 'light' | 'dark';
+  app: string;
 }
 
-export const initialState: IAppState = {
-  theme: 'light',
+export const appInitialState: IAppState = {
+  app: 'app',
 };
 
 export const appSelector = (state: { app: IAppState}) => state.app;
 
-export const app = (state = initialState, action: AnyAction) => {
+export const app = (state = appInitialState, action: AnyAction) => {
   switch (action.type) {
-    case 'SIMPLE_ACTION':
-      const { theme } = action;
+    case 'TEST_ACTION':
+      const { app } = action;
       return {
-        theme,
+        ...state,
+        app,
       };
     default:
       return state;
