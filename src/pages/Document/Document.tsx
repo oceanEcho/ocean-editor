@@ -5,9 +5,11 @@ import { CustomEditor } from '../../components/CustomEditor';
 import { ToolPanel } from '../../components/ToolPanel';
 import { Icon } from '../../components/Icon';
 import { Layout } from '../../components/Layout';
+import { Loader } from '../../components/Loader';
 
 export const Document: FunctionComponent<{}> = () => {
-  return (
+  return <>
+    <Loader loading />
     <Layout>
       <CustomEditor />
       <ToolPanel position="left">
@@ -22,5 +24,5 @@ export const Document: FunctionComponent<{}> = () => {
         <Icon type="settings" />
       </ToolPanel>
     </Layout>
-  );
+  </>;
 };
