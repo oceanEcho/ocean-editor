@@ -1,22 +1,28 @@
 import { AnyAction } from 'redux';
 
 export interface IAppState {
-  app: string;
+  config: {
+    apiUrl: string;
+  };
+  test: string;
 }
 
 export const appInitialState: IAppState = {
-  app: 'app',
+  config: {
+    apiUrl: 'http://localhost:4000'
+  },
+  test: '',
 };
 
-export const appSelector = (state: { app: IAppState}) => state.app;
+export const appSelector = (state: { app: IAppState }) => state.app;
 
 export const app = (state = appInitialState, action: AnyAction) => {
   switch (action.type) {
     case 'TEST_ACTION':
-      const { app } = action;
+      const { test } = action;
       return {
         ...state,
-        app,
+        test,
       };
     default:
       return state;

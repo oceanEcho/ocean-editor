@@ -1,7 +1,8 @@
-import React, { FunctionComponent } from 'react';
+import React, { FunctionComponent, useEffect } from 'react';
 import { Switch, Route } from 'react-router-dom';
 import { ConnectedRouter } from 'connected-react-router';
 import { History } from 'history'
+import { useDispatch } from 'react-redux';
 
 import styles from './App.module.scss';
 
@@ -10,11 +11,19 @@ import { Document } from '../pages/Document/Document';
 import { Home } from '../pages/Home';
 import { Login } from '../pages/Login';
 
+import { getData } from './actions';
+
 export interface IAppProps {
   history: History;
 }
 
 const App: FunctionComponent<IAppProps> = ({ history }) => {
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(getData());
+  }, [dispatch])
+
   return (
     <div className={styles.app}>
       <ConnectedRouter history={history}>

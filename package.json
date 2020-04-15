@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@koa/cors": "^2.2.3",
     "@testing-library/jest-dom": "^4.2.4",
     "@testing-library/react": "^9.4.0",
     "@testing-library/user-event": "^7.1.2",
@@ -21,13 +22,15 @@
     "react-router-dom": "^5.1.2",
     "react-scripts": "3.4.1",
     "redux": "^4.0.4",
+    "redux-saga": "^1.1.3",
     "typescript": "^3.7.3"
   },
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "server": "node server/main.js"
   },
   "eslintConfig": {
     "extends": "react-app"
@@ -49,6 +52,7 @@
     "@types/draft-js": "^0.10.37",
     "@types/react-redux": "^7.1.5",
     "@types/react-router-dom": "^5.1.3",
+    "koa": "^2.11.0",
     "redux-devtools-extension": "^2.13.8"
   }
 }

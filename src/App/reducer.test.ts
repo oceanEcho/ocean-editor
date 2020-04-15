@@ -1,10 +1,9 @@
-import { app, appInitialState } from "./reducer"
-import { testAction } from './actions';
+import { app, appInitialState } from "./reducer";
 
 describe('App reducer test', () => {
   it('testAction returns state and data from action', () => {
-    const result = app(appInitialState, testAction('test'));
+    const result = app(appInitialState, { type: 'TEST_ACTION', test: 'test' });
 
-    expect(result.app).toBe('test');
+    expect(result.test).toBe('test');
   })
 })
