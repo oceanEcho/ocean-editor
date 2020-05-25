@@ -1,10 +1,38 @@
 @import '../../styles/styles.scss';
 
+.descriptionPanel {
+  flex-direction: column;
+  background-color: $ligth-color;
+  color: $main-text-color;
+  @include main-text;
+  margin-bottom: 10px;
+}
+
 .editor {
   width: 816px;
   min-height: 1033px;
   background-color: $ligth-color;
-  padding: 40px 60px;
+  padding: 20px 20px;
   box-sizing: border-box;
   @include full-shadow;
+
+  & strong {
+    font-weight: bold;
+  }
+
+  & em {
+    font-style: italic;
+  }
+
+  & blockquote {
+    padding: 5px 0px 5px 10px;
+    background: $background-color;
+    border-left: 5px solid $third-color;
+  }
+
+  & blockquote p {
+    display: inline;
+  }
+
+  @include text;
 }

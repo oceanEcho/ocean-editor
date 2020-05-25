@@ -11,6 +11,7 @@
   min-height: 60px;
   padding: 20px;
   background-color: $main-color;
+  z-index: 1;
   @include bottom-shadow;
 }
 
