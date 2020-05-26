@@ -13,7 +13,7 @@ import { Loader } from '../../components/Loader';
 export const Home: FunctionComponent<{}> = () => {
   return (
     <>
-      <Loader loading/>
+      <Loader loading />
       <Layout>
         <Content>
           <Row fullwidth>
