@@ -9,6 +9,6 @@ export interface IInputProps {
 }
 
 export const Input: FunctionComponent<IInputProps> = ({ className = '', placeholder }) => {
-  const rootClassName = cn(styles.root, className);
-  return <input className={rootClassName} placeholder={placeholder}></input>;
+  const inputClassName = cn(styles.input, className);
+  return <input className={inputClassName} placeholder={placeholder}></input>;
 };

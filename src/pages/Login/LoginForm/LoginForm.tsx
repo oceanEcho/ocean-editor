@@ -33,13 +33,13 @@ export const LoginForm: FunctionComponent<ILoginFormProps> = ({ className = '', 
         <Logo />
       </Row>
       <Row fullwidth>
-        <Input placeholder="Username..." className={styles.loginRow}></Input>
+        <Input placeholder="Username..." className={cn(styles.loginRow, styles.input)}></Input>
       </Row>
       <Row fullwidth>
-        <Input placeholder="Password..." className={styles.loginRow}></Input>
+        <Input placeholder="Password..." className={cn(styles.loginRow, styles.input)}></Input>
       </Row>
       <Row fullwidth>
-        <Button onClick={onLoginClick} className={styles.loginRow}>Login</Button>
+        <Button onClick={onLoginClick} className={cn(styles.loginRow, styles.input)}>Login</Button>
       </Row>
     </Panel>
   );

@@ -5,6 +5,7 @@ import { Panel } from '../Panel';
 
 import styles from './CustomEditor.module.scss';
 import { Row } from '../Row/Row';
+import { Input } from '../Input';
 
 export const CustomEditor = () => {
   const onEditorChange = (content, editor) => {
@@ -15,13 +16,12 @@ export const CustomEditor = () => {
     <div className={styles.root}>
       <Panel className={styles.descriptionPanel}>
         <Row fullwidth>
-          <div>Title</div>
+          <Input placeholder='Title' />
         </Row>
         <Row fullwidth>
-          <div>Author</div>
+        <Input placeholder='Author'/>
         </Row>
       </Panel>
-
       <div className={styles.editor}>
         <Editor
           apiKey="evx2equdpjl541nvx870yvkmoxrxohte5hd7edmwhkmwljn1"

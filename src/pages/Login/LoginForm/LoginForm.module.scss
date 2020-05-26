@@ -1,3 +1,5 @@
+@import '../../../styles/styles.scss';
+
 .root {
   display: flex;
   flex-direction: column;
@@ -6,4 +8,18 @@
 
 .loginRow {
   margin-top: 20px;
+}
+
+.input {
+  border: none;
+  border-bottom: 1px solid $ligth-color;
+  padding: 0px 8px 8px 8px;
+  color: $ligth-color;
+  background-color: inherit;
+  width: 250px;
+
+  &::placeholder {
+    color: $ligth-color;
+    opacity: 0.5;
+  }
 }
