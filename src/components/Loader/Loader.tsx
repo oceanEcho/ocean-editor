@@ -7,6 +7,5 @@ interface ILoaderProps {
 }
 
 export const Loader: FunctionComponent<ILoaderProps> = ({ loading }) => {
-  console.log(loading)
   return loading ? <div className={styles.root} /> : null;
 };

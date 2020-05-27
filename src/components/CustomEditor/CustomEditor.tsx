@@ -1,15 +1,31 @@
 /* eslint-disable no-multi-str */
-import React from 'react';
-import { Editor } from '@tinymce/tinymce-react';
-import { Panel } from '../Panel';
+import React, {useEffect, useState} from 'react';
+import { useDispatch } from 'react-redux';
 
 import styles from './CustomEditor.module.scss';
+
+import { Editor } from '@tinymce/tinymce-react';
+import { Panel } from '../Panel';
 import { Row } from '../Row/Row';
 import { Input } from '../Input';
+import { postData } from '../../pages/Document/actions';
+
 
 export const CustomEditor = () => {
-  const onEditorChange = (content, editor) => {
+
+  const [content, setContent] = useState('<p>Write something</p>')
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      dispatch(postData({content: content}));
+    }, 10000);
+    return () => clearInterval(interval);
+  }, [dispatch, content]);
+
+  const onEditorChange = (content: any, editor: any) => {
     console.log('Content was updated:', content);
+    setContent(content);
   };
 
   return (
@@ -25,7 +41,7 @@ export const CustomEditor = () => {
       <div className={styles.editor}>
         <Editor
           apiKey="evx2equdpjl541nvx870yvkmoxrxohte5hd7edmwhkmwljn1"
-          initialValue="<p>This is the initial content of the editor</p>"
+          initialValue={content}
           init={{
             menubar: false,
             plugins: [

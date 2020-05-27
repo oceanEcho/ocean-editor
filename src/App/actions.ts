@@ -9,7 +9,7 @@ export interface IGetData extends AnyAction {
   type: typeof GET_DATA;
   request: {
     method: string;
-  }
+  };
 }
 
 export const getData = (): IGetData => {
@@ -17,7 +17,7 @@ export const getData = (): IGetData => {
     type: GET_DATA,
     request: {
       method: 'GET',
-    }
+    },
   };
 };
 
@@ -55,13 +55,15 @@ export function* watchGetData() {
 
 function* getDataAsync(action: AnyAction) {
   try {
-    const { request: { method } } = action;
-    const { config: { apiUrl } } = yield select(appSelector);
+    const {
+      request: { method },
+    } = action;
+    const {
+      config: { apiUrl },
+    } = yield select(appSelector);
     const data = yield call(() => {
-      return fetch(apiUrl, { method })
-        .then(res => res.json())
-    }
-    );
+      return fetch(apiUrl, { method }).then((res) => res.json());
+    });
     yield put(getDataSuccess(data));
   } catch (error) {
     yield put(getDataError(error));
