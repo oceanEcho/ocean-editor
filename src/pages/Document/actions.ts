@@ -1,32 +1,32 @@
 import { AnyAction } from 'redux';
-import { call, takeEvery, put, select } from 'redux-saga/effects';
-
-import { appSelector } from '../../App/reducer';
+import { call, takeEvery, put } from 'redux-saga/effects';
+import axios from 'axios';
 
 export const POST_DATA = 'POST_DATA';
 
 export interface IPostData extends AnyAction {
   type: typeof POST_DATA;
   request: {
+    url: string;
     method: string;
     headers: any;
-    body: any;
+    data: any;
   };
 }
 
 export const postData = (data: object): IPostData => {
   const dataToRequest = JSON.stringify(data);
-  console.log(dataToRequest);
 
   return {
     type: POST_DATA,
     request: {
+      url: 'http://localhost:4000/documents',
       method: 'POST',
       headers: {
         Accept: 'application/json',
         'Content-Type': 'application/json',
       },
-      body: dataToRequest,
+      data: dataToRequest,
     },
   };
 };
@@ -35,13 +35,11 @@ export const POST_DATA_SUCCESS = 'POST_DATA_SUCCESS';
 
 export interface IPostDataSuccess extends AnyAction {
   type: typeof POST_DATA_SUCCESS;
-  data: any;
 }
 
-export const postDataSuccess = (data: any): IPostDataSuccess => {
+export const postDataSuccess = (): IPostDataSuccess => {
   return {
     type: POST_DATA_SUCCESS,
-    data,
   };
 };
 
@@ -64,21 +62,17 @@ export function* watchPostData() {
 }
 
 function* postDataAsync(action: AnyAction) {
-  try {
-    const {
-      request: { method },
-    } = action;
-    const {
-      config: { apiUrl },
-    } = yield select(appSelector);
-    const data = yield call(() => {
-      return fetch(`${apiUrl}/document`, {
-        method,
-      }).then((res) => {
-        return res.json();
+  const { request } = action;
+  const apiCall = () => {
+    return axios(request)
+      .then((response) => response.data)
+      .catch((err) => {
+        throw err;
       });
-    });
-    yield put(postDataSuccess(data));
+  };
+  try {
+    yield call(apiCall);
+    yield put(postDataSuccess());
   } catch (error) {
     yield put(postDataError(error));
   }
