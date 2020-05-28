@@ -8,39 +8,39 @@ import { Editor } from '@tinymce/tinymce-react';
 import { Panel } from '../Panel';
 import { Row } from '../Row/Row';
 import { Input } from '../Input';
-import { postData } from '../../pages/Document/actions';
+import { updateDocument } from '../../pages/Document/actions';
 
 export const CustomEditor = () => {
   const dispatch = useDispatch();
 
-  const [content, setContent] = useState('<p>Write something</p>');
+  const [content, setContent] = useState('');
 
   const onEditorChange = useCallback((content: any, editor: any) => {
     setContent(content);
   }, []);
 
-  const [title, setTitle] = useState('');
+  const [name, setName] = useState('');
 
   const onTitleChange = useCallback((value: string) => {
-    setTitle(value);
+    setName(value);
   }, []);
 
-  const [author, setAuthor] = useState('');
+  const [discipline, setDiscipline] = useState('');
 
   const onAuthorChange = useCallback((value: string) => {
-    setAuthor(value);
+    setDiscipline(value);
   }, []);
 
   const documentData = {
-    title,
-    author,
+    name,
+    discipline,
     content,
-  }
+  };
 
   useEffect(() => {
     const interval = setInterval(() => {
-      dispatch(postData(documentData));
-    }, 30000);
+      dispatch(updateDocument('5ecff4f6f3869f3aa82c1624', documentData));
+    }, 10000);
     return () => clearInterval(interval);
   }, [dispatch, documentData]);
 
@@ -48,10 +48,10 @@ export const CustomEditor = () => {
     <div className={styles.root}>
       <Panel className={styles.descriptionPanel}>
         <Row fullwidth>
-          <Input placeholder="Title" value={title} onChange={onTitleChange} />
+          <Input placeholder="Название" value={name} onChange={onTitleChange} />
         </Row>
         <Row fullwidth>
-          <Input placeholder="Author" value={author} onChange={onAuthorChange} />
+          <Input placeholder="Дисциплина" value={discipline} onChange={onAuthorChange} />
         </Row>
       </Panel>
       <div className={styles.editor}>

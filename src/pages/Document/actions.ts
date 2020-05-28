@@ -1,11 +1,12 @@
 import { AnyAction } from 'redux';
-import { call, takeEvery, put } from 'redux-saga/effects';
+import { call, takeEvery, put, select } from 'redux-saga/effects';
 import axios from 'axios';
+import { appSelector } from '../../App/reducer';
 
-export const POST_DATA = 'POST_DATA';
+export const UPDATE_DOCUMENT = 'UPDATE_DOCUMENT';
 
-export interface IPostData extends AnyAction {
-  type: typeof POST_DATA;
+export interface IUpdateDocument extends AnyAction {
+  type: typeof UPDATE_DOCUMENT;
   request: {
     url: string;
     method: string;
@@ -14,14 +15,14 @@ export interface IPostData extends AnyAction {
   };
 }
 
-export const postData = (data: object): IPostData => {
+export const updateDocument = (id: string, data: object): IUpdateDocument => {
   const dataToRequest = JSON.stringify(data);
 
   return {
-    type: POST_DATA,
+    type: UPDATE_DOCUMENT,
     request: {
-      url: 'http://localhost:4000/documents',
-      method: 'POST',
+      url: `/document/${id}`,
+      method: 'PUT',
       headers: {
         Accept: 'application/json',
         'Content-Type': 'application/json',
@@ -31,40 +32,43 @@ export const postData = (data: object): IPostData => {
   };
 };
 
-export const POST_DATA_SUCCESS = 'POST_DATA_SUCCESS';
+export const UPDATE_DOCUMENT_SUCCESS = 'UPDATE_DOCUMENT_SUCCESS';
 
-export interface IPostDataSuccess extends AnyAction {
-  type: typeof POST_DATA_SUCCESS;
+export interface IUpdateDocumentSuccess extends AnyAction {
+  type: typeof UPDATE_DOCUMENT_SUCCESS;
 }
 
-export const postDataSuccess = (): IPostDataSuccess => {
+export const updateDocumentSuccess = (): IUpdateDocumentSuccess => {
   return {
-    type: POST_DATA_SUCCESS,
+    type: UPDATE_DOCUMENT_SUCCESS,
   };
 };
 
-export const POST_DATA_ERROR = 'POST_DATA_ERROR';
+export const UPDATE_DOCUMENT_ERROR = 'UPDATE_DOCUMENT_ERROR';
 
-export interface IPostDataError extends AnyAction {
-  type: typeof POST_DATA_ERROR;
+export interface IUpdateDocumentError extends AnyAction {
+  type: typeof UPDATE_DOCUMENT_ERROR;
   error: any;
 }
 
-export const postDataError = (error: any): IPostDataError => {
+export const updateDocumentError = (error: any): IUpdateDocumentError => {
   return {
-    type: POST_DATA_ERROR,
+    type: UPDATE_DOCUMENT_ERROR,
     error,
   };
 };
 
-export function* watchPostData() {
-  yield takeEvery(POST_DATA, postDataAsync);
+export function* watchUpdateDocument() {
+  yield takeEvery(UPDATE_DOCUMENT, updateDocumentAsync);
 }
 
-function* postDataAsync(action: AnyAction) {
+function* updateDocumentAsync(action: AnyAction) {
   const { request } = action;
+  const {
+    config: { apiUrl },
+  } = yield select(appSelector);
   const apiCall = () => {
-    return axios(request)
+    return axios({ ...request, url: `${apiUrl}${request.url}` })
       .then((response) => response.data)
       .catch((err) => {
         throw err;
@@ -72,10 +76,10 @@ function* postDataAsync(action: AnyAction) {
   };
   try {
     yield call(apiCall);
-    yield put(postDataSuccess());
+    yield put(updateDocumentSuccess());
   } catch (error) {
-    yield put(postDataError(error));
+    yield put(updateDocumentError(error));
   }
 }
 
-export type IAppActions = IPostData;
+export type IAppActions = IUpdateDocument;

@@ -1,5 +1,6 @@
 import { AnyAction } from 'redux';
 import { call, takeEvery, put, select } from 'redux-saga/effects';
+import axios from 'axios';
 
 import { appSelector } from './reducer';
 
@@ -9,6 +10,7 @@ export interface IGetData extends AnyAction {
   type: typeof GET_DATA;
   request: {
     method: string;
+    url: string;
   };
 }
 
@@ -17,6 +19,7 @@ export const getData = (): IGetData => {
     type: GET_DATA,
     request: {
       method: 'GET',
+      url: `/document/list`,
     },
   };
 };
@@ -54,16 +57,19 @@ export function* watchGetData() {
 }
 
 function* getDataAsync(action: AnyAction) {
+  const { request } = action;
+  const {
+    config: { apiUrl },
+  } = yield select(appSelector);
+  const apiCall = () => {
+    return axios({ ...request, url: `${apiUrl}${request.url}` })
+      .then((response) => response.data)
+      .catch((err) => {
+        throw err;
+      });
+  };
   try {
-    const {
-      request: { method },
-    } = action;
-    const {
-      config: { apiUrl },
-    } = yield select(appSelector);
-    const data = yield call(() => {
-      return fetch(apiUrl, { method }).then((res) => res.json());
-    });
+    const data = yield call(apiCall);
     yield put(getDataSuccess(data));
   } catch (error) {
     yield put(getDataError(error));
