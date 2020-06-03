@@ -68,7 +68,15 @@ function* updateDocumentAsync(action: AnyAction) {
     config: { apiUrl },
   } = yield select(appSelector);
   const apiCall = () => {
-    return axios({ ...request, url: `${apiUrl}${request.url}` })
+    const token = localStorage.getItem('token');
+    return axios({
+      ...request,
+      url: `${apiUrl}${request.url}`,
+      headers: {
+        ...request.headers,
+        Authorization: `Bearer ${token}`,
+      }
+    })
       .then((response) => response.data)
       .catch((err) => {
         throw err;
@@ -82,4 +90,4 @@ function* updateDocumentAsync(action: AnyAction) {
   }
 }
 
-export type IAppActions = IUpdateDocument;
+export type IDocumentActions = IUpdateDocument;

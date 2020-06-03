@@ -1,0 +1,7 @@
+@import '../../styles/styles.scss';
+
+.panel {
+  background-color: $ligth-color;
+  color: $main-text-color;
+  @include main-text;
+}

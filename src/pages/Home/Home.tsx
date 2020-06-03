@@ -10,6 +10,8 @@ import { Icon } from '../../components/Icon';
 import { Row, Col } from '../../components/Row';
 import { Loader } from '../../components/Loader';
 
+import styles from './Home.module.scss';
+
 export const Home: FunctionComponent<{}> = () => {
   return (
     <>
@@ -20,7 +22,7 @@ export const Home: FunctionComponent<{}> = () => {
             <Col col={6}>
               <Row fullwidth>
                 <Col>
-                  <Panel>
+                  <Panel className={styles.panel}>
                     <CustomLink to={`${routes.DOCUMENT.path}/0`}>
                       <Icon type="file"></Icon> New document
                     </CustomLink>
@@ -29,7 +31,7 @@ export const Home: FunctionComponent<{}> = () => {
               </Row>
               <Row fullwidth>
                 <Col>
-                  <Panel>
+                  <Panel className={styles.panel}>
                     <CustomLink to={`${routes.DOCUMENT.path}/0`}>
                       <Icon type="folder" /> Open document
                     </CustomLink>
@@ -38,7 +40,7 @@ export const Home: FunctionComponent<{}> = () => {
               </Row>
               <Row fullwidth>
                 <Col>
-                  <Panel>
+                  <Panel className={styles.panel}>
                     <CustomLink to={`${routes.DOCUMENT.path}/0`}>
                       <Icon type="file" /> Add discipline
                     </CustomLink>
@@ -47,7 +49,7 @@ export const Home: FunctionComponent<{}> = () => {
               </Row>
               <Row fullwidth>
                 <Col>
-                  <Panel>
+                  <Panel className={styles.panel}>
                     <CustomLink to={`${routes.DOCUMENT.path}/0`}>
                       <Icon type="edit" /> Add note
                     </CustomLink>
@@ -56,7 +58,7 @@ export const Home: FunctionComponent<{}> = () => {
               </Row>
             </Col>
             <Col col={6}>
-              <Panel>
+              <Panel className={styles.panel}>
                 Incididunt ipsum ut tempor nulla ipsum proident ad nulla ex. Fugiat ullamco do minim minim do ullamco.
                 Quis occaecat quis cillum cillum. Voluptate commodo qui cupidatat cillum incididunt anim adipisicing eu
                 anim dolor culpa est tempor consectetur. Commodo officia eu irure ipsum consequat voluptate labore sint
@@ -77,7 +79,7 @@ export const Home: FunctionComponent<{}> = () => {
           </Row>
           <Row fullwidth>
             <Col col={8}>
-              <Panel>
+              <Panel className={styles.panel}>
                 Aute cupidatat magna adipisicing dolore laboris consequat anim quis qui. In et velit adipisicing id et
                 commodo incididunt reprehenderit ut elit qui laboris veniam non. Fugiat adipisicing ad nulla aliqua
                 adipisicing fugiat irure sint. Sint ipsum magna eu ex eiusmod nisi cillum excepteur ea consequat non
@@ -88,7 +90,7 @@ export const Home: FunctionComponent<{}> = () => {
               </Panel>
             </Col>
             <Col col={4}>
-              <Panel>
+              <Panel className={styles.panel}>
                 Sit dolor dolore nisi minim nisi dolor ad qui pariatur nostrud sunt non. Quis non fugiat labore elit
                 nulla est exercitation quis velit enim. Dolor officia aute culpa mollit et qui fugiat qui laborum.
                 Excepteur aute sit voluptate occaecat tempor aute. Eiusmod aliquip tempor mollit cupidatat adipisicing
