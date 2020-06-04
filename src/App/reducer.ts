@@ -1,12 +1,14 @@
 import { AnyAction } from 'redux';
 import { LOGIN_SUCCESS } from '../pages/Login/actions';
+import { GET_USER_SUCCESS, SET_AUTH } from './actions';
+import { RouterState } from 'connected-react-router';
 
 export interface IAppState {
   config: {
     apiUrl: string;
   };
   test: string;
-  authorized: boolean;
+  authenticated: boolean | null;
 }
 
 export const appInitialState: IAppState = {
@@ -14,10 +16,12 @@ export const appInitialState: IAppState = {
     apiUrl: 'http://localhost:4000',
   },
   test: '',
-  authorized: false,
+  authenticated: null,
 };
 
 export const appSelector = (state: { app: IAppState }) => state.app;
+
+export const routerSelector = (state: {router: RouterState}) => state.router;
 
 export const app = (state = appInitialState, action: AnyAction) => {
   switch (action.type) {
@@ -31,7 +35,21 @@ export const app = (state = appInitialState, action: AnyAction) => {
     case LOGIN_SUCCESS: {
       return {
         ...state,
-        authorized: true,
+        authenticated: true,
+      };
+    }
+    case GET_USER_SUCCESS: {
+      return {
+        ...state,
+        authenticated: true,
+      };
+    }
+    case SET_AUTH: {
+      const { authenticated } = action;
+      console.log('reducer', authenticated)
+      return {
+        ...state,
+        authenticated,
       };
     }
     default:

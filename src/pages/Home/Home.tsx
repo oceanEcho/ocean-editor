@@ -1,5 +1,6 @@
 import React from 'react';
-import { FunctionComponent } from 'react';
+import { FunctionComponent, useEffect } from 'react';
+import { useDispatch } from 'react-redux';
 
 import { Layout } from '../../components/Layout';
 import { Panel } from '../../components/Panel';
@@ -11,15 +12,22 @@ import { Row, Col } from '../../components/Row';
 import { Loader } from '../../components/Loader';
 
 import styles from './Home.module.scss';
+import { getDocumentList } from './actions';
 
 export const Home: FunctionComponent<{}> = () => {
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(getDocumentList());
+  }, [dispatch]);
+
   return (
     <>
       <Loader loading />
       <Layout>
         <Content>
           <Row fullwidth>
-            <Col col={6}>
+            <Col>
               <Row fullwidth>
                 <Col>
                   <Panel className={styles.panel}>
@@ -57,51 +65,23 @@ export const Home: FunctionComponent<{}> = () => {
                 </Col>
               </Row>
             </Col>
-            <Col col={6}>
-              <Panel className={styles.panel}>
-                Incididunt ipsum ut tempor nulla ipsum proident ad nulla ex. Fugiat ullamco do minim minim do ullamco.
-                Quis occaecat quis cillum cillum. Voluptate commodo qui cupidatat cillum incididunt anim adipisicing eu
-                anim dolor culpa est tempor consectetur. Commodo officia eu irure ipsum consequat voluptate labore sint
-                irure anim velit esse excepteur. Veniam laborum et officia exercitation ullamco enim est esse labore
-                eiusmod magna ex in sint. Eu est proident magna elit culpa amet incididunt. Do anim mollit consectetur
-                labore consequat excepteur sit exercitation ad voluptate dolore aute amet magna. Eiusmod in aliquip esse
-                aliqua sint magna et. Officia amet elit ea adipisicing ex id esse et qui et eiusmod quis mollit sit.
-                Officia consectetur ullamco mollit proident sit incididunt labore aute amet ea nostrud officia veniam.
-                Mollit consequat aliqua qui ullamco voluptate pariatur esse dolor quis ex dolor. Esse exercitation
-                voluptate velit do veniam quis elit consequat. Nulla culpa occaecat commodo excepteur duis ullamco
-                incididunt id aliquip. Incididunt do sit quis consequat tempor Lorem occaecat sunt deserunt incididunt
-                qui eu. Dolore nostrud ad aliquip ut pariatur occaecat voluptate ad aliqua eu pariatur et proident.
-                Magna nisi ea pariatur quis nisi ea occaecat ipsum. Ex sint non aute velit laborum laboris dolore
-                consectetur cillum. Minim consectetur irure culpa consectetur esse irure nostrud elit proident proident
-                nisi pariatur. Nulla eiusmod aliqua laborum cillum id. Aliqua quis amet reprehenderit amet.
-              </Panel>
-            </Col>
           </Row>
           <Row fullwidth>
-            <Col col={8}>
+            <Col>
               <Panel className={styles.panel}>
-                Aute cupidatat magna adipisicing dolore laboris consequat anim quis qui. In et velit adipisicing id et
-                commodo incididunt reprehenderit ut elit qui laboris veniam non. Fugiat adipisicing ad nulla aliqua
-                adipisicing fugiat irure sint. Sint ipsum magna eu ex eiusmod nisi cillum excepteur ea consequat non
-                quis. Ea in minim consectetur labore cillum exercitation nulla pariatur eu esse. Anim fugiat occaecat
-                veniam ad sint ex labore culpa ut velit. Ea dolore do aliquip ex laborum consectetur adipisicing. Ex
-                anim magna commodo qui non duis in deserunt irure minim consequat. Culpa officia duis pariatur et
-                voluptate consectetur ullamco.
-              </Panel>
-            </Col>
-            <Col col={4}>
-              <Panel className={styles.panel}>
-                Sit dolor dolore nisi minim nisi dolor ad qui pariatur nostrud sunt non. Quis non fugiat labore elit
-                nulla est exercitation quis velit enim. Dolor officia aute culpa mollit et qui fugiat qui laborum.
-                Excepteur aute sit voluptate occaecat tempor aute. Eiusmod aliquip tempor mollit cupidatat adipisicing
-                anim est. Veniam eu amet adipisicing deserunt commodo aliqua aliquip incididunt voluptate fugiat
-                consequat labore dolor adipisicing. Incididunt mollit sint sit ullamco aliquip qui do laborum. Laboris
-                enim fugiat nisi minim quis commodo laboris. Mollit adipisicing fugiat irure enim veniam. Esse dolor
-                aute nostrud dolore occaecat veniam minim sint mollit deserunt. Esse dolore voluptate ad ut ipsum dolor
-                voluptate. Sint sit officia officia laboris duis sit dolor proident proident culpa ipsum tempor laborum
-                consequat. Quis cupidatat consectetur nisi duis occaecat irure. Eu fugiat in quis proident dolor amet
-                aute aute non. Fugiat esse ea aliquip irure voluptate adipisicing dolor sit ex pariatur tempor
-                exercitation reprehenderit.
+                Velit nostrud ea adipisicing in minim do proident excepteur. Nostrud excepteur in ad laborum adipisicing
+                Lorem proident commodo. Officia nulla veniam ut nisi esse laborum ut laboris nulla labore id nulla. Et
+                Lorem ipsum voluptate magna voluptate dolor et. Ex sunt sit sint sit sit do dolore occaecat in eu nulla
+                exercitation pariatur. Ipsum consectetur ipsum ex amet. Sit voluptate sunt ullamco irure esse voluptate
+                nisi. Laborum esse deserunt dolor aliqua amet nulla laboris laboris anim duis quis veniam. Deserunt anim
+                ut irure ex sunt ut. Ex aliqua in amet cupidatat quis do laborum. Ipsum ex anim labore sunt id
+                consectetur consequat. Dolor occaecat consectetur culpa exercitation incididunt minim laboris qui
+                incididunt irure velit exercitation amet. Reprehenderit laboris consequat fugiat anim sint irure irure
+                nostrud occaecat. Aliqua veniam ad sunt laborum eu consequat laborum ut sint nostrud adipisicing. Et
+                nisi ex dolor minim incididunt et. Qui ex esse officia ex duis elit aliquip velit veniam tempor in
+                incididunt. Laboris eiusmod irure laborum commodo consequat magna anim proident nisi qui sunt aliqua.
+                Nulla aliqua ex mollit ad esse adipisicing dolore dolore ipsum proident exercitation mollit laborum
+                duis. Lorem non pariatur dolor labore est labore amet in non fugiat eiusmod et eu.
               </Panel>
             </Col>
           </Row>

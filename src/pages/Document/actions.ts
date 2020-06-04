@@ -58,7 +58,7 @@ export const updateDocumentError = (error: any): IUpdateDocumentError => {
   };
 };
 
-export function* watchUpdateDocument() {
+export function* watchDocument() {
   yield takeEvery(UPDATE_DOCUMENT, updateDocumentAsync);
 }
 

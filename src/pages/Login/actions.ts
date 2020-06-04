@@ -4,6 +4,7 @@ import axios from 'axios';
 import { appSelector } from '../../App/reducer';
 import { push } from 'connected-react-router';
 import { routes } from '../../App/routes';
+import { setAuth } from '../../App/actions';
 
 export const LOGIN = 'LOGIN';
 
@@ -62,13 +63,32 @@ export const loginError = (error: any): ILoginError => {
   };
 };
 
+export const LOGOUT = 'LOGOUT';
+
+export interface ILogout extends AnyAction {
+  type: typeof LOGOUT;
+}
+
+export const logout = (): ILogout => {
+  return {
+    type: LOGOUT,
+  };
+};
+
 export function* watchLogin() {
   yield takeEvery(LOGIN, loginAsync);
   yield takeLatest(LOGIN_SUCCESS, redirectToHome);
+  yield takeLatest(LOGOUT, clearToken);
 }
 
-function* redirectToHome(action: AnyAction) {
-  yield put(push(routes.HOME.path))
+function* clearToken() {
+  yield localStorage.removeItem('token');
+  yield put(setAuth(false));
+  yield put(push(routes.LOGIN.path));
+}
+
+export function* redirectToHome(action: AnyAction) {
+  yield put(push(routes.HOME.path));
 }
 
 function* loginAsync(action: AnyAction) {

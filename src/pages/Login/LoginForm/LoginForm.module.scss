@@ -6,8 +6,13 @@
   align-items: center;
 }
 
+.logo {
+  color: $ligth-color;
+}
+
 .loginRow {
   margin-top: 20px;
+  width: 100%;
 }
 
 .input {
@@ -22,4 +27,8 @@
     color: $ligth-color;
     opacity: 0.5;
   }
+}
+
+.loginButton {
+  padding: 8px;
 }
