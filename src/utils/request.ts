@@ -34,7 +34,7 @@ export const createRequestAction = (token?: string | null) => function* doReques
     yield put(successAction(data));
   } catch (error) {
     const errorAction = (error: any) => ({
-      type: `${type}_SUCCESS`,
+      type: `${type}_ERROR`,
       error,
     });
 

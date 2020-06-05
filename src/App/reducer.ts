@@ -55,7 +55,7 @@ export const app = (state = appInitialState, action: AnyAction) => {
     }
     case SET_AUTH: {
       const { authenticated } = action;
-      console.log('reducer', authenticated);
+
       return {
         ...state,
         authenticated,
