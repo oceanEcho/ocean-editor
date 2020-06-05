@@ -1,7 +1,6 @@
 import { AnyAction } from 'redux';
-import { call, takeEvery, put, select } from 'redux-saga/effects';
-import axios from 'axios';
-import { appSelector } from '../../App/reducer';
+import { takeEvery } from 'redux-saga/effects';
+import { createRequestAction } from '../../utils/request';
 
 export const GET_DOCUMENT_LIST = 'GET_DOCUMENT_LIST';
 
@@ -52,35 +51,10 @@ export const getDocumentListError = (error: any): IGetDocumentListError => {
 };
 
 export function* watchHome() {
-  yield takeEvery(GET_DOCUMENT_LIST, getDocumentListAsync);
-}
+  const token = localStorage.getItem('token');
+  const doRequest = createRequestAction(token);
 
-function* getDocumentListAsync(action: AnyAction) {
-  const { request } = action;
-  const {
-    config: { apiUrl },
-  } = yield select(appSelector);
-  const apiCall = () => {
-    const token = localStorage.getItem('token');
-    return axios({
-      ...request,
-      url: `${apiUrl}${request.url}`,
-      headers: {
-        ...request.headers,
-        Authorization: `Bearer ${token}`,
-      },
-    })
-      .then((response) => response.data)
-      .catch((err) => {
-        throw err;
-      });
-  };
-  try {
-    const data = yield call(apiCall);
-    yield put(getDocumentListSuccess(data));
-  } catch (error) {
-    yield put(getDocumentListError(error));
-  }
+  yield takeEvery(GET_DOCUMENT_LIST, doRequest);
 }
 
 export type IAppActions = IGetDocumentList;

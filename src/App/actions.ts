@@ -1,11 +1,11 @@
 import { AnyAction } from 'redux';
-import { call, takeEvery, put, select, takeLatest } from 'redux-saga/effects';
-import axios from 'axios';
+import { takeEvery, put, select, takeLatest } from 'redux-saga/effects';
 
 import { appSelector, routerSelector } from './reducer';
 import { redirectToHome } from '../pages/Login/actions';
 import { push } from 'connected-react-router';
 import { routes } from './routes';
+import { createRequestAction } from '../utils/request';
 
 export const LOCATION_CHANGE = '@@router/LOCATION_CHANGE';
 
@@ -88,11 +88,6 @@ export interface IGetUserSuccess extends AnyAction {
   data: any;
 }
 
-export const getUserSuccess = (data: any): IGetUserSuccess => ({
-  type: GET_USER_SUCCESS,
-  data,
-});
-
 export const GET_USER_ERROR = 'GET_USER_ERROR';
 
 export interface IGetUserError extends AnyAction {
@@ -100,83 +95,24 @@ export interface IGetUserError extends AnyAction {
   error: any;
 }
 
-export const getUserError = (error: any): IGetUserError => ({
-  type: GET_USER_ERROR,
-  error,
-});
-
 export function* watchApp() {
-  yield takeEvery(GET_DATA, getDataAsync);
-  yield takeLatest(GET_USER, getUserAsync);
+  const token = localStorage.getItem('token');
+  const doRequest = createRequestAction(token);
+
+  yield takeEvery(GET_DATA, doRequest);
+  yield takeLatest(GET_USER, doRequest);
   yield takeLatest(GET_USER_SUCCESS, redirectToHome);
-  yield takeLatest(LOCATION_CHANGE, checkAuthOnLocationChange);
+  yield takeLatest(LOCATION_CHANGE, onLocationChange);
 }
 
-function* checkAuthOnLocationChange() {
+function* onLocationChange() {
   const { authenticated } = yield select(appSelector);
   const {
     location: { pathname },
   } = yield select(routerSelector);
 
-  console.log(pathname, routes.LOGIN.path);
   if (!authenticated && pathname !== routes.LOGIN.path) {
     yield put(push(routes.LOGIN.path));
-  }
-}
-
-function* getUserAsync(action: AnyAction) {
-  const { request } = action;
-  const {
-    config: { apiUrl },
-  } = yield select(appSelector);
-  const apiCall = () => {
-    const token = localStorage.getItem('token');
-    return axios({
-      ...request,
-      url: `${apiUrl}${request.url}`,
-      headers: {
-        ...request.headers,
-        Authorization: `Bearer ${token}`,
-      },
-    })
-      .then((response) => response.data)
-      .catch((err) => {
-        throw err;
-      });
-  };
-  try {
-    const data = yield call(apiCall);
-    yield put(getUserSuccess(data));
-  } catch (error) {
-    yield put(getUserError(error));
-  }
-}
-
-function* getDataAsync(action: AnyAction) {
-  const { request } = action;
-  const {
-    config: { apiUrl },
-  } = yield select(appSelector);
-  const apiCall = () => {
-    const token = localStorage.getItem('token');
-    return axios({
-      ...request,
-      url: `${apiUrl}${request.url}`,
-      headers: {
-        ...request.headers,
-        Authorization: `Bearer ${token}`,
-      },
-    })
-      .then((response) => response.data)
-      .catch((err) => {
-        throw err;
-      });
-  };
-  try {
-    const data = yield call(apiCall);
-    yield put(getDataSuccess(data));
-  } catch (error) {
-    yield put(getDataError(error));
   }
 }
 

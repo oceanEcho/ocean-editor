@@ -1,10 +1,9 @@
 import { AnyAction } from 'redux';
-import { call, takeEvery, put, select, takeLatest } from 'redux-saga/effects';
-import axios from 'axios';
-import { appSelector } from '../../App/reducer';
+import { takeEvery, put, takeLatest } from 'redux-saga/effects';
 import { push } from 'connected-react-router';
 import { routes } from '../../App/routes';
 import { setAuth } from '../../App/actions';
+import { createRequestAction } from '../../utils/request';
 
 export const LOGIN = 'LOGIN';
 
@@ -42,13 +41,6 @@ export interface ILoginSuccess extends AnyAction {
   data: object;
 }
 
-export const loginSuccess = (data: object): ILoginSuccess => {
-  return {
-    type: LOGIN_SUCCESS,
-    data,
-  };
-};
-
 export const LOGIN_ERROR = 'LOGIN_ERROR';
 
 export interface ILoginError extends AnyAction {
@@ -56,32 +48,23 @@ export interface ILoginError extends AnyAction {
   error: any;
 }
 
-export const loginError = (error: any): ILoginError => {
-  return {
-    type: LOGIN_ERROR,
-    error,
-  };
-};
-
 export const LOGOUT = 'LOGOUT';
 
 export interface ILogout extends AnyAction {
   type: typeof LOGOUT;
 }
 
-export const logout = (): ILogout => {
-  return {
-    type: LOGOUT,
-  };
-};
+export const logout = (): ILogout => ({ type: LOGOUT });
 
 export function* watchLogin() {
-  yield takeEvery(LOGIN, loginAsync);
+  const doRequestWithoutToken = createRequestAction();
+
+  yield takeEvery(LOGIN, doRequestWithoutToken);
   yield takeLatest(LOGIN_SUCCESS, redirectToHome);
-  yield takeLatest(LOGOUT, clearToken);
+  yield takeLatest(LOGOUT, doLogout);
 }
 
-function* clearToken() {
+function* doLogout() {
   yield localStorage.removeItem('token');
   yield put(setAuth(false));
   yield put(push(routes.LOGIN.path));
@@ -89,31 +72,6 @@ function* clearToken() {
 
 export function* redirectToHome(action: AnyAction) {
   yield put(push(routes.HOME.path));
-}
-
-function* loginAsync(action: AnyAction) {
-  const { request } = action;
-  const {
-    config: { apiUrl },
-  } = yield select(appSelector);
-  const apiCall = () => {
-    return axios({ ...request, url: `${apiUrl}${request.url}` })
-      .then((response) => response.data)
-      .catch((err) => {
-        throw err;
-      });
-  };
-  try {
-    const data = yield call(apiCall);
-
-    if (data) {
-      localStorage.setItem('token', data);
-    }
-
-    yield put(loginSuccess(data));
-  } catch (error) {
-    yield put(loginError(error));
-  }
 }
 
 export type ILoginActions = ILogin;

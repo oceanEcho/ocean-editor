@@ -21,7 +21,7 @@ export const appInitialState: IAppState = {
 
 export const appSelector = (state: { app: IAppState }) => state.app;
 
-export const routerSelector = (state: {router: RouterState}) => state.router;
+export const routerSelector = (state: { router: RouterState }) => state.router;
 
 export const app = (state = appInitialState, action: AnyAction) => {
   switch (action.type) {
@@ -33,9 +33,18 @@ export const app = (state = appInitialState, action: AnyAction) => {
       };
     }
     case LOGIN_SUCCESS: {
+      const { data } = action;
+
+      let authenticated = false;
+
+      if (data) {
+        localStorage.setItem('token', data);
+        authenticated = true;
+      }
+
       return {
         ...state,
-        authenticated: true,
+        authenticated,
       };
     }
     case GET_USER_SUCCESS: {
@@ -46,7 +55,7 @@ export const app = (state = appInitialState, action: AnyAction) => {
     }
     case SET_AUTH: {
       const { authenticated } = action;
-      console.log('reducer', authenticated)
+      console.log('reducer', authenticated);
       return {
         ...state,
         authenticated,

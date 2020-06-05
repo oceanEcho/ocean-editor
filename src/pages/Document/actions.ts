@@ -1,7 +1,6 @@
 import { AnyAction } from 'redux';
-import { call, takeEvery, put, select } from 'redux-saga/effects';
-import axios from 'axios';
-import { appSelector } from '../../App/reducer';
+import { takeEvery } from 'redux-saga/effects';
+import { createRequestAction } from '../../utils/request';
 
 export const UPDATE_DOCUMENT = 'UPDATE_DOCUMENT';
 
@@ -38,11 +37,9 @@ export interface IUpdateDocumentSuccess extends AnyAction {
   type: typeof UPDATE_DOCUMENT_SUCCESS;
 }
 
-export const updateDocumentSuccess = (): IUpdateDocumentSuccess => {
-  return {
-    type: UPDATE_DOCUMENT_SUCCESS,
-  };
-};
+export const updateDocumentSuccess = (): IUpdateDocumentSuccess => ({
+  type: UPDATE_DOCUMENT_SUCCESS,
+});
 
 export const UPDATE_DOCUMENT_ERROR = 'UPDATE_DOCUMENT_ERROR';
 
@@ -51,43 +48,16 @@ export interface IUpdateDocumentError extends AnyAction {
   error: any;
 }
 
-export const updateDocumentError = (error: any): IUpdateDocumentError => {
-  return {
-    type: UPDATE_DOCUMENT_ERROR,
-    error,
-  };
-};
+export const updateDocumentError = (error: any): IUpdateDocumentError => ({
+  type: UPDATE_DOCUMENT_ERROR,
+  error,
+});
 
 export function* watchDocument() {
-  yield takeEvery(UPDATE_DOCUMENT, updateDocumentAsync);
-}
+  const token = localStorage.getItem('token');
+  const doRequest = createRequestAction(token);
 
-function* updateDocumentAsync(action: AnyAction) {
-  const { request } = action;
-  const {
-    config: { apiUrl },
-  } = yield select(appSelector);
-  const apiCall = () => {
-    const token = localStorage.getItem('token');
-    return axios({
-      ...request,
-      url: `${apiUrl}${request.url}`,
-      headers: {
-        ...request.headers,
-        Authorization: `Bearer ${token}`,
-      }
-    })
-      .then((response) => response.data)
-      .catch((err) => {
-        throw err;
-      });
-  };
-  try {
-    yield call(apiCall);
-    yield put(updateDocumentSuccess());
-  } catch (error) {
-    yield put(updateDocumentError(error));
-  }
+  yield takeEvery(UPDATE_DOCUMENT, doRequest);
 }
 
 export type IDocumentActions = IUpdateDocument;
