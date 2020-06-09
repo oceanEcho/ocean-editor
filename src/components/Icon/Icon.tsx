@@ -8,6 +8,7 @@ import photoCamera from './assets/photo-camera.png'
 import user from './assets/user.png'
 import settings from './assets/settings.png'
 import notebook from './assets/notebook.png'
+import plus from './assets/plus.png'
 
 export const iconMap = {
   file,
@@ -18,6 +19,7 @@ export const iconMap = {
   user,
   settings,
   notebook,
+  plus,
 };
 
 export interface IIconProps {
