@@ -3,3 +3,9 @@
 .logoutButton {
   width: 100px;
 }
+
+.title {
+  @include flex-center;
+  min-width: 400px;
+  max-width: 1200px;
+}

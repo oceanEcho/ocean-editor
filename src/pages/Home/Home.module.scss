@@ -1,7 +1,24 @@
 @import '../../styles/styles.scss';
 
-.panel {
+.panel,
+.panelButton {
   background-color: $ligth-color;
   color: $main-text-color;
   @include main-text;
+}
+
+.panelButton {
+  justify-content: center;
+  align-items: center;
+  flex-direction: row;
+  flex-wrap: wrap;
+  height: 100%;
+
+  .panelButtonIcon {
+    margin: 4px;
+  }
+
+  .panelButtonText {
+    text-align: center;
+  }
 }

@@ -1,6 +1,6 @@
 import { AnyAction } from 'redux';
 import { LOGIN_SUCCESS } from '../pages/Login/actions';
-import { GET_USER_SUCCESS, SET_AUTH } from './actions';
+import { GET_USER_SUCCESS, SET_AUTH, GET_USER_ERROR } from './actions';
 import { RouterState } from 'connected-react-router';
 
 export interface IAppState {
@@ -51,6 +51,12 @@ export const app = (state = appInitialState, action: AnyAction) => {
       return {
         ...state,
         authenticated: true,
+      };
+    }
+    case GET_USER_ERROR: {
+      return {
+        ...state,
+        authenticated: false,
       };
     }
     case SET_AUTH: {

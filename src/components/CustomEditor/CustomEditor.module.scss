@@ -1,13 +1,5 @@
 @import '../../styles/styles.scss';
 
-.descriptionPanel {
-  flex-direction: column;
-  background-color: $ligth-color;
-  color: $main-text-color;
-  @include main-text;
-  margin-bottom: 10px;
-}
-
 .editor {
   width: 816px;
   min-height: 1033px;

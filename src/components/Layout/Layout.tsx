@@ -14,9 +14,10 @@ import { Button } from '../Button';
 
 export interface ILayoutProps {
   children?: ReactNode | ReactNode[];
+  headerChildren?: ReactNode;
 }
 
-export const Layout: FunctionComponent<ILayoutProps> = ({ children }) => {
+export const Layout: FunctionComponent<ILayoutProps> = ({ children, headerChildren }) => {
   const dispatch = useDispatch();
 
   const onLogoClick = useCallback(() => {
@@ -31,6 +32,7 @@ export const Layout: FunctionComponent<ILayoutProps> = ({ children }) => {
     <>
       <Header>
         <Logo onClick={onLogoClick} />
+        <div className={styles.title}>{headerChildren}</div>
         <Button className={styles.logoutButton} onClick={onLogout}>
           Выйти
         </Button>

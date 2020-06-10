@@ -53,11 +53,41 @@ export const updateDocumentError = (error: any): IUpdateDocumentError => ({
   error,
 });
 
+export const CREATE_DOCUMENT = 'CREATE_DOCUMENT';
+
+export interface ICreateDocument extends AnyAction {
+  type: typeof CREATE_DOCUMENT;
+  request: {
+    url: string;
+    method: string;
+    headers: any;
+    data: any;
+  };
+}
+
+export const createDocument = (id: string, data: object): ICreateDocument => {
+  const dataToRequest = JSON.stringify(data);
+
+  return {
+    type: CREATE_DOCUMENT,
+    request: {
+      url: `/document/${id}`,
+      method: 'POST',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+      },
+      data: dataToRequest,
+    },
+  };
+};
+
 export function* watchDocument() {
   const token = localStorage.getItem('token');
   const doRequest = createRequestAction(token);
 
+  yield takeEvery(CREATE_DOCUMENT, doRequest);
   yield takeEvery(UPDATE_DOCUMENT, doRequest);
 }
 
-export type IDocumentActions = IUpdateDocument;
+export type IDocumentActions = IUpdateDocument | ICreateDocument;

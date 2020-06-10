@@ -1,12 +1,12 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import { FunctionComponent, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
+import { push } from 'connected-react-router';
 
 import { Layout } from '../../components/Layout';
 import { Panel } from '../../components/Panel';
 import { Content } from '../../components/Layout/Content';
 import { routes } from '../../App/routes';
-import { CustomLink } from '../../components/CustomLink';
 import { Icon } from '../../components/Icon';
 import { Row, Col } from '../../components/Row';
 import { Loader } from '../../components/Loader';
@@ -21,49 +21,33 @@ export const Home: FunctionComponent<{}> = () => {
     dispatch(getDocumentList());
   }, [dispatch]);
 
+  const onDocumentCreate = useCallback(() => {
+    dispatch(push(`${routes.DOCUMENT.path}/new`));
+  }, [dispatch]);
+
   return (
     <>
       <Loader loading />
       <Layout>
         <Content>
           <Row fullwidth>
-            <Col>
-              <Row fullwidth>
-                <Col>
-                  <Panel className={styles.panel}>
-                    <CustomLink to={`${routes.DOCUMENT.path}/0`}>
-                      <Icon type="file"></Icon> New document
-                    </CustomLink>
-                  </Panel>
-                </Col>
-              </Row>
-              <Row fullwidth>
-                <Col>
-                  <Panel className={styles.panel}>
-                    <CustomLink to={`${routes.DOCUMENT.path}/0`}>
-                      <Icon type="folder" /> Open document
-                    </CustomLink>
-                  </Panel>
-                </Col>
-              </Row>
-              <Row fullwidth>
-                <Col>
-                  <Panel className={styles.panel}>
-                    <CustomLink to={`${routes.DOCUMENT.path}/0`}>
-                      <Icon type="file" /> Add discipline
-                    </CustomLink>
-                  </Panel>
-                </Col>
-              </Row>
-              <Row fullwidth>
-                <Col>
-                  <Panel className={styles.panel}>
-                    <CustomLink to={`${routes.DOCUMENT.path}/0`}>
-                      <Icon type="edit" /> Add note
-                    </CustomLink>
-                  </Panel>
-                </Col>
-              </Row>
+            <Col col={4}>
+              <Panel className={styles.panelButton} onClick={onDocumentCreate}>
+                <Icon className={styles.panelButtonIcon} type="file" />
+                <span className={styles.panelButtonText}>Новый документ</span>
+              </Panel>
+            </Col>
+            <Col col={4}>
+              <Panel className={styles.panelButton}>
+                <Icon className={styles.panelButtonIcon} type="edit" />
+                <span className={styles.panelButtonText}>Новая заметка</span>
+              </Panel>
+            </Col>
+            <Col col={4}>
+              <Panel className={styles.panelButton}>
+                <Icon className={styles.panelButtonIcon} type="plus" />
+                <span className={styles.panelButtonText}>Добавить дисциплину</span>
+              </Panel>
             </Col>
           </Row>
           <Row fullwidth>
