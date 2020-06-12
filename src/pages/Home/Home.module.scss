@@ -1,7 +1,8 @@
 @import '../../styles/styles.scss';
 
 .panel,
-.panelButton {
+.panelButton,
+.createDocumentPanel {
   background-color: $ligth-color;
   color: $main-text-color;
   @include main-text;
@@ -23,7 +24,22 @@
   }
 }
 
+.titleInput {
+  border: none;
+  border-bottom: 1px solid $main-color;
+  padding: 8px;
+  width: 100%;
+}
+
 .button {
   color: $main-text-color;
-  border-bottom: $main-text-color;
+
+  &:hover {
+    border-bottom: 1px solid $main-text-color;
+  }
+}
+
+.createDocumentPanel {
+  min-width: 500px;
+  flex-direction: column;
 }

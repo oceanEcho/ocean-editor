@@ -1,0 +1,16 @@
+@import '../../styles/styles.scss';
+
+.dropdownRoot {
+  width: 100%;
+}
+
+.dropdownControl {
+  border: none;
+  border-radius: 0;
+  border-bottom: 1px solid $main-color;
+  color: $main-text-color;
+}
+
+.dropdownMenu {
+  border: 1px solid $main-color;
+}

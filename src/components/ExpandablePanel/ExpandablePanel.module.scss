@@ -1,0 +1,30 @@
+@import '../../styles/styles.scss';
+
+.root {
+  display: flex;
+  flex-direction: column;
+  background-color: $ligth-color;
+}
+
+.header {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.openArrow {
+  cursor: pointer;
+  user-select: none;
+}
+
+.content {
+  border-top: 1px solid $main-color-opactity-20;
+  margin-top: 20px;
+  padding-top: 20px;
+}
+
+.disabledArrow {
+  cursor: default;
+  color: $main-color-opactity-20;
+}
