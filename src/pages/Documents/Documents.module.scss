@@ -1,0 +1,8 @@
+@import '../../styles/styles.scss';
+
+.documentListPanel {
+  flex-direction: column;
+  background-color: $ligth-color;
+  color: $main-text-color;
+  @include main-text;
+}

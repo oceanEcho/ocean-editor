@@ -1,7 +1,6 @@
 import { AnyAction } from 'redux';
 import { takeEvery, takeLatest } from 'redux-saga/effects';
 
-import { redirectToHome } from '../pages/Login/actions';
 import { createRequestAction } from '../utils/request';
 
 export const LOCATION_CHANGE = '@@router/LOCATION_CHANGE';
@@ -98,7 +97,6 @@ export function* watchApp() {
 
   yield takeEvery(GET_DATA, doRequest);
   yield takeLatest(GET_USER, doRequest);
-  yield takeLatest(GET_USER_SUCCESS, redirectToHome);
 }
 
 export type IAppActions = IGetData | IGetUserSuccess;

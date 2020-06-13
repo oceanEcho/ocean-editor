@@ -4,5 +4,12 @@
 }
 
 .subjectName {
-  @include main-font;
+  @include title;
+}
+
+.clickable {
+  cursor: pointer;
+  &:hover {
+    text-decoration: underline;
+  }
 }

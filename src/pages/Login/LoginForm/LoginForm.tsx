@@ -45,6 +45,7 @@ export const LoginForm: FunctionComponent<ILoginFormProps> = ({ className = '', 
           className={cn(styles.loginRow, styles.input)}
           value={email}
           onValueChange={setEmail}
+          type="email"
         />
       </Row>
       <Row fullwidth>
@@ -53,6 +54,7 @@ export const LoginForm: FunctionComponent<ILoginFormProps> = ({ className = '', 
           className={cn(styles.loginRow, styles.input)}
           value={password}
           onValueChange={setPassword}
+          type="password"
         />
       </Row>
       <Row fullwidth>

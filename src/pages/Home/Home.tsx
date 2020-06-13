@@ -29,7 +29,7 @@ export const Home: FunctionComponent<{}> = () => {
   const { subjectlist, documentList } = useSelector(homeSelector);
 
   useEffect(() => {
-    dispatch(getDocumentList());
+    dispatch(getDocumentList(5));
     dispatch(getSubjectList());
   }, [dispatch]);
 
@@ -114,7 +114,7 @@ export const Home: FunctionComponent<{}> = () => {
           </Row>
           <Row fullwidth>
             <Col>
-              <ExpandablePanel title="Документы" hasContent={!!documentList.length}>
+              <ExpandablePanel title="Документы" hasContent={!!documentList.length} hasBeenOpened={true}>
                 <DocumentList documents={documentList} dispatch={dispatch} />
               </ExpandablePanel>
             </Col>
@@ -137,7 +137,7 @@ export const Home: FunctionComponent<{}> = () => {
           <Row fullwidth>
             <Col>
               <ExpandablePanel title="Дисциплины" hasContent={!!subjectlist.length}>
-                <SubjectList subjects={subjectlist} />
+                <SubjectList subjects={subjectlist} dispatch={dispatch} />
               </ExpandablePanel>
             </Col>
           </Row>
@@ -186,7 +186,6 @@ export const Home: FunctionComponent<{}> = () => {
                 placeholder="Введите название..."
                 value={subject}
                 onValueChange={(subject) => setSubject(subject)}
-                type="submit"
               />
             </form>
           </Row>

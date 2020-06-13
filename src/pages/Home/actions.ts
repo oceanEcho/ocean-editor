@@ -16,7 +16,7 @@ export interface IGetDocumentList extends AnyAction {
   };
 }
 
-export const getDocumentList = (count: number = 10): IGetDocumentList => {
+export const getDocumentList = (count?: number): IGetDocumentList => {
   return {
     type: GET_DOCUMENT_LIST,
     request: {
@@ -91,6 +91,13 @@ export interface IGetSubjectList extends AnyAction {
     method: string;
     url: string;
   };
+}
+
+export const CREATE_SUBJECT_SUCCESS = 'CREATE_SUBJECT_SUCCESS';
+
+export interface ICreateSubjectSuccess extends AnyAction {
+  type: typeof CREATE_SUBJECT_SUCCESS;
+  data: any;
 }
 
 export const getSubjectList = (): IGetSubjectList => {
@@ -175,11 +182,16 @@ function* openDocument(action: AnyAction) {
   yield put(push(`${routes.DOCUMENT.path}/${_id}`));
 }
 
+function* onCreateSubjectSuccess(action: AnyAction) {
+  yield put(getSubjectList());
+}
+
 export function* watchHome() {
   const token = localStorage.getItem('token');
   const doRequest = createRequestAction(token);
 
   yield takeEvery(CREATE_SUBJECT, doRequest);
+  yield takeEvery(CREATE_SUBJECT_SUCCESS, onCreateSubjectSuccess);
 
   yield takeEvery(GET_DOCUMENT_LIST, doRequest);
   yield takeEvery(GET_SUBJECT_LIST, doRequest);
@@ -188,4 +200,4 @@ export function* watchHome() {
   yield takeEvery(CREATE_DOCUMENT_SUCCESS, openDocument);
 }
 
-export type IHomeActions = IGetDocumentList | ICreateSubject | ICreateDocumentSuccess;
+export type IHomeActions = IGetDocumentList | ICreateSubject | ICreateDocumentSuccess | ICreateSubjectSuccess;

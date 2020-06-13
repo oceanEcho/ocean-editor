@@ -7,7 +7,13 @@ export interface IInputProps extends InputHTMLAttributes<any> {
   onValueChange?: (value: string) => void;
 }
 
-export const Input: FunctionComponent<IInputProps> = ({ className = '', placeholder, value, onValueChange }) => {
+export const Input: FunctionComponent<IInputProps> = ({
+  className = '',
+  placeholder,
+  value,
+  onValueChange,
+  ...props
+}) => {
   const handleChange = useCallback(
     (event: any) => {
       const {
@@ -20,5 +26,5 @@ export const Input: FunctionComponent<IInputProps> = ({ className = '', placehol
     [onValueChange]
   );
 
-  return <input className={className} placeholder={placeholder} value={value} onChange={handleChange} />;
+  return <input {...props} className={className} placeholder={placeholder} value={value} onChange={handleChange} />;
 };
