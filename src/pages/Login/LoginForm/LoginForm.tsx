@@ -37,14 +37,14 @@ export const LoginForm: FunctionComponent<ILoginFormProps> = ({ className = '', 
   return (
     <Panel className={rootClassName}>
       <Row fullwidth justify="center">
-        <Logo className={styles.logo}/>
+        <Logo className={styles.logo} />
       </Row>
       <Row fullwidth>
         <Input
           placeholder="Email..."
           className={cn(styles.loginRow, styles.input)}
           value={email}
-          onChange={setEmail}
+          onValueChange={setEmail}
         />
       </Row>
       <Row fullwidth>
@@ -52,7 +52,7 @@ export const LoginForm: FunctionComponent<ILoginFormProps> = ({ className = '', 
           placeholder="Пароль..."
           className={cn(styles.loginRow, styles.input)}
           value={password}
-          onChange={setPassword}
+          onValueChange={setPassword}
         />
       </Row>
       <Row fullwidth>

@@ -65,13 +65,13 @@ export interface ICreateDocument extends AnyAction {
   };
 }
 
-export const createDocument = (id: string, data: object): ICreateDocument => {
+export const createDocument = (data: object): ICreateDocument => {
   const dataToRequest = JSON.stringify(data);
 
   return {
     type: CREATE_DOCUMENT,
     request: {
-      url: `/document/${id}`,
+      url: `/document`,
       method: 'POST',
       headers: {
         Accept: 'application/json',

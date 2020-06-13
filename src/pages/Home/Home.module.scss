@@ -21,6 +21,7 @@
 
   .panelButtonText {
     text-align: center;
+    @include title;
   }
 }
 

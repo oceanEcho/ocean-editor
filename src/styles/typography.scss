@@ -28,7 +28,7 @@
 
 @mixin text {
   line-height: 1.5;
-  
+
   & h1 {
     @include h1;
   }
@@ -50,4 +50,14 @@
   & p {
     @include main-text;
   }
+}
+
+@mixin title {
+  font-size: 20px;
+  line-height: 1.5;
+}
+
+@mixin main-font {
+  font-size: 16px;
+  line-height: 1.5;
 }

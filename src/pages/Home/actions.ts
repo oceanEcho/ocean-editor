@@ -12,12 +12,12 @@ export interface IGetDocumentList extends AnyAction {
   };
 }
 
-export const getDocumentList = (): IGetDocumentList => {
+export const getDocumentList = (count: number = 10): IGetDocumentList => {
   return {
     type: GET_DOCUMENT_LIST,
     request: {
       method: 'GET',
-      url: `/document/list`,
+      url: `/document/list?count=${count}`,
     },
   };
 };
@@ -50,11 +50,41 @@ export const getDocumentListError = (error: any): IGetDocumentListError => {
   };
 };
 
+export const CREATE_SUBJECT = 'CREATE_SUBJECT';
+
+export interface ICreateSubject extends AnyAction {
+  type: typeof CREATE_SUBJECT;
+  request: {
+    url: string;
+    method: string;
+    headers: any;
+    data: any;
+  };
+}
+
+export const createSubject = (data: object): ICreateSubject => {
+  const dataToRequest = JSON.stringify(data);
+
+  return {
+    type: CREATE_SUBJECT,
+    request: {
+      url: `/subject`,
+      method: 'POST',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+      },
+      data: dataToRequest,
+    },
+  };
+};
+
 export function* watchHome() {
   const token = localStorage.getItem('token');
   const doRequest = createRequestAction(token);
 
+  yield takeEvery(CREATE_SUBJECT, doRequest);
   yield takeEvery(GET_DOCUMENT_LIST, doRequest);
 }
 
-export type IAppActions = IGetDocumentList;
+export type IHomeActions = IGetDocumentList | ICreateSubject;

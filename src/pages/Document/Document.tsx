@@ -44,7 +44,7 @@ export const Document: FunctionComponent<{}> = () => {
     return () => clearInterval(interval);
   }, [dispatch, documentData]);
 
-  const documentTitle = <Input value={title} onChange={onTitleChange} className={styles.titleInput} />;
+  const documentTitle = <Input value={title} onValueChange={onTitleChange} className={styles.titleInput} />;
 
   return (
     <>

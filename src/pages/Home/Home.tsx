@@ -12,12 +12,14 @@ import { Row, Col } from '../../components/Row';
 import { Loader } from '../../components/Loader';
 
 import styles from './Home.module.scss';
-import { getDocumentList } from './actions';
+import { getDocumentList, createSubject } from './actions';
 import { Modal } from '../../components/Modal';
 import { Button } from '../../components/Button';
 import { Input } from '../../components/Input';
 import { ExpandablePanel } from '../../components/ExpandablePanel';
 import { Dropdown } from '../../components/Dropdown';
+import { PanelHeader } from '../../components/Panel/PanelHeader';
+import { PanelFooter } from '../../components/Panel/PanelFooter';
 
 export const Home: FunctionComponent<{}> = () => {
   const dispatch = useDispatch();
@@ -28,16 +30,37 @@ export const Home: FunctionComponent<{}> = () => {
 
   const onOpenCreateModal = useCallback(() => {
     setDocumentCreatingModalOpen(true);
+    setTitle(`Новый документ ${new Date().toLocaleString()}`);
   }, []);
 
   const onDocumentCreate = useCallback(() => {
     dispatch(push(`${routes.DOCUMENT.path}/new`));
   }, [dispatch]);
 
-  const options = ['one', 'two', 'three'];
-  const defaultOption = options[0];
+  const options = ['ОЭВМиС', 'Культурология', 'История'];
 
   const [isDocumentCreatingModalOpen, setDocumentCreatingModalOpen] = useState(false);
+
+  const [title, setTitle] = useState(`Новый документ ${new Date().toLocaleString()}`);
+
+  const [isSubjectCreatingModalOpen, setSubjectCreatingModalOpen] = useState(false);
+
+  const [subject, setSubject] = useState('');
+
+  const onSubjectCreate = useCallback(() => {
+    const subjectData = {
+      name: subject,
+    };
+
+    dispatch(createSubject(subjectData));
+    setSubject('');
+    setSubjectCreatingModalOpen(false);
+  }, [dispatch, subject]);
+
+  const onOpenSubjectCreatingModal = useCallback(() => {
+    setSubject('');
+    setSubjectCreatingModalOpen(true);
+  }, []);
 
   return (
     <>
@@ -58,7 +81,7 @@ export const Home: FunctionComponent<{}> = () => {
               </Panel>
             </Col>
             <Col col={4}>
-              <Panel className={styles.panelButton}>
+              <Panel className={styles.panelButton} onClick={onOpenSubjectCreatingModal}>
                 <Icon className={styles.panelButtonIcon} type="plus" />
                 <span className={styles.panelButtonText}>Добавить дисциплину</span>
               </Panel>
@@ -66,7 +89,7 @@ export const Home: FunctionComponent<{}> = () => {
           </Row>
           <Row fullwidth>
             <Col>
-              <ExpandablePanel title="Последние документы">
+              <ExpandablePanel title="Документы">
                 Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla porttitor, ligula non pharetra eleifend,
                 lectus ex ultricies nulla, eget lobortis justo mi eget ipsum. Etiam ultrices risus at arcu pellentesque
                 lacinia. Duis euismod pellentesque mauris id porttitor. Nulla ultrices elit quis sapien commodo viverra.
@@ -113,24 +136,54 @@ export const Home: FunctionComponent<{}> = () => {
       </Layout>
       <Modal isOpen={isDocumentCreatingModalOpen} onClose={() => setDocumentCreatingModalOpen(false)}>
         <Panel className={styles.createDocumentPanel}>
-          <Row fullwidth>
+          <PanelHeader>
             <span>Новый документ</span>
+          </PanelHeader>
+          <Row fullwidth>
+            <Input
+              className={styles.titleInput}
+              placeholder="Введите название..."
+              value={title}
+              onValueChange={(title) => setTitle(title)}
+            />
           </Row>
           <Row fullwidth>
-            <span>Название</span>
-            <Input className={styles.titleInput} />
+            <Dropdown options={options} placeholder="Выберите дисциплину" />
           </Row>
-          <Row fullwidth>
-            <Dropdown options={options} />
-          </Row>
-          <Row fullwidth justify="space-between">
+          <PanelFooter>
             <Button className={styles.button} onClick={() => setDocumentCreatingModalOpen(false)}>
               ◀ Отмена
             </Button>
             <Button className={styles.button} onClick={onDocumentCreate}>
               Создать ▶
             </Button>
+          </PanelFooter>
+        </Panel>
+      </Modal>
+      <Modal isOpen={isSubjectCreatingModalOpen} onClose={() => setSubjectCreatingModalOpen(false)}>
+        <Panel className={styles.createDocumentPanel}>
+          <PanelHeader>
+            <span>Новая дисциплина</span>
+          </PanelHeader>
+          <Row fullwidth>
+            <form onSubmit={onSubjectCreate}>
+              <Input
+                className={styles.titleInput}
+                placeholder="Введите название..."
+                value={subject}
+                onValueChange={(subject) => setSubject(subject)}
+                type="submit"
+              />
+            </form>
           </Row>
+          <PanelFooter>
+            <Button className={styles.button} onClick={() => setSubjectCreatingModalOpen(false)}>
+              ◀ Отмена
+            </Button>
+            <Button className={styles.button} onClick={onSubjectCreate}>
+              Создать ▶
+            </Button>
+          </PanelFooter>
         </Panel>
       </Modal>
     </>
