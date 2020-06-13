@@ -1,18 +1,17 @@
 import React, { useCallback, useState } from 'react';
 import { FunctionComponent, useEffect } from 'react';
-import { useDispatch } from 'react-redux';
-import { push } from 'connected-react-router';
+import { useDispatch, useSelector } from 'react-redux';
+import { Option } from 'react-dropdown';
 
 import { Layout } from '../../components/Layout';
 import { Panel } from '../../components/Panel';
 import { Content } from '../../components/Layout/Content';
-import { routes } from '../../App/routes';
 import { Icon } from '../../components/Icon';
 import { Row, Col } from '../../components/Row';
 import { Loader } from '../../components/Loader';
 
 import styles from './Home.module.scss';
-import { getDocumentList, createSubject } from './actions';
+import { getDocumentList, createSubject, getSubjectList, createDocument } from './actions';
 import { Modal } from '../../components/Modal';
 import { Button } from '../../components/Button';
 import { Input } from '../../components/Input';
@@ -20,24 +19,26 @@ import { ExpandablePanel } from '../../components/ExpandablePanel';
 import { Dropdown } from '../../components/Dropdown';
 import { PanelHeader } from '../../components/Panel/PanelHeader';
 import { PanelFooter } from '../../components/Panel/PanelFooter';
+import { homeSelector } from './reducer';
+import { SubjectList } from '../../components/SubjectList';
+import { DocumentList } from '../../components/DocumentList';
 
 export const Home: FunctionComponent<{}> = () => {
   const dispatch = useDispatch();
 
+  const { subjectlist, documentList } = useSelector(homeSelector);
+
   useEffect(() => {
     dispatch(getDocumentList());
+    dispatch(getSubjectList());
   }, [dispatch]);
 
-  const onOpenCreateModal = useCallback(() => {
-    setDocumentCreatingModalOpen(true);
-    setTitle(`Новый документ ${new Date().toLocaleString()}`);
-  }, []);
+  const subjectDropdownOptions: Option[] = subjectlist.map((subject) => ({
+    value: subject._id,
+    label: subject.name,
+  }));
 
-  const onDocumentCreate = useCallback(() => {
-    dispatch(push(`${routes.DOCUMENT.path}/new`));
-  }, [dispatch]);
-
-  const options = ['ОЭВМиС', 'Культурология', 'История'];
+  const [subjectForDocument, setSubjectForDocument] = useState(subjectDropdownOptions[0]);
 
   const [isDocumentCreatingModalOpen, setDocumentCreatingModalOpen] = useState(false);
 
@@ -48,6 +49,10 @@ export const Home: FunctionComponent<{}> = () => {
   const [subject, setSubject] = useState('');
 
   const onSubjectCreate = useCallback(() => {
+    if (!subject) {
+      return;
+    }
+
     const subjectData = {
       name: subject,
     };
@@ -62,6 +67,26 @@ export const Home: FunctionComponent<{}> = () => {
     setSubjectCreatingModalOpen(true);
   }, []);
 
+  const onOpenDocumentCreatingModal = useCallback(() => {
+    setDocumentCreatingModalOpen(true);
+    setTitle(`Новый документ ${new Date().toLocaleString()}`);
+  }, []);
+
+  const onDocumentCreate = useCallback(() => {
+    if (!subjectForDocument || !subjectForDocument.value) {
+      return;
+    }
+
+    const documentData = {
+      name: title,
+      subjectId: subjectForDocument.value,
+      subjectName: subjectForDocument.label,
+      content: '',
+    };
+
+    dispatch(createDocument(documentData));
+  }, [dispatch, subjectForDocument, title]);
+
   return (
     <>
       <Loader loading />
@@ -69,7 +94,7 @@ export const Home: FunctionComponent<{}> = () => {
         <Content>
           <Row fullwidth>
             <Col col={4}>
-              <Panel className={styles.panelButton} onClick={onOpenCreateModal}>
+              <Panel className={styles.panelButton} onClick={onOpenDocumentCreatingModal}>
                 <Icon className={styles.panelButtonIcon} type="file" />
                 <span className={styles.panelButtonText}>Новый документ</span>
               </Panel>
@@ -89,16 +114,8 @@ export const Home: FunctionComponent<{}> = () => {
           </Row>
           <Row fullwidth>
             <Col>
-              <ExpandablePanel title="Документы">
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla porttitor, ligula non pharetra eleifend,
-                lectus ex ultricies nulla, eget lobortis justo mi eget ipsum. Etiam ultrices risus at arcu pellentesque
-                lacinia. Duis euismod pellentesque mauris id porttitor. Nulla ultrices elit quis sapien commodo viverra.
-                Proin egestas mollis lectus id congue. Curabitur quis tortor ut mi vestibulum mattis. Nullam accumsan
-                enim at aliquam ultricies. Aliquam consequat lorem ut sodales dictum. In pulvinar nibh eu semper
-                vehicula. Etiam dictum varius elit, ut maximus urna porttitor et. In bibendum dictum felis, at commodo
-                metus placerat sed. Aenean fermentum aliquam eros, vitae cursus orci facilisis sit amet. Cras semper sed
-                metus eget molestie. Maecenas ac accumsan ipsum. Suspendisse lobortis, lectus at volutpat hendrerit,
-                felis leo sodales metus, a posuere tortor erat eget odio.
+              <ExpandablePanel title="Документы" hasContent={!!documentList.length}>
+                <DocumentList documents={documentList} dispatch={dispatch} />
               </ExpandablePanel>
             </Col>
           </Row>
@@ -119,16 +136,8 @@ export const Home: FunctionComponent<{}> = () => {
           </Row>
           <Row fullwidth>
             <Col>
-              <ExpandablePanel title="Дисциплины" hasContent={false}>
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla porttitor, ligula non pharetra eleifend,
-                lectus ex ultricies nulla, eget lobortis justo mi eget ipsum. Etiam ultrices risus at arcu pellentesque
-                lacinia. Duis euismod pellentesque mauris id porttitor. Nulla ultrices elit quis sapien commodo viverra.
-                Proin egestas mollis lectus id congue. Curabitur quis tortor ut mi vestibulum mattis. Nullam accumsan
-                enim at aliquam ultricies. Aliquam consequat lorem ut sodales dictum. In pulvinar nibh eu semper
-                vehicula. Etiam dictum varius elit, ut maximus urna porttitor et. In bibendum dictum felis, at commodo
-                metus placerat sed. Aenean fermentum aliquam eros, vitae cursus orci facilisis sit amet. Cras semper sed
-                metus eget molestie. Maecenas ac accumsan ipsum. Suspendisse lobortis, lectus at volutpat hendrerit,
-                felis leo sodales metus, a posuere tortor erat eget odio.
+              <ExpandablePanel title="Дисциплины" hasContent={!!subjectlist.length}>
+                <SubjectList subjects={subjectlist} />
               </ExpandablePanel>
             </Col>
           </Row>
@@ -136,7 +145,7 @@ export const Home: FunctionComponent<{}> = () => {
       </Layout>
       <Modal isOpen={isDocumentCreatingModalOpen} onClose={() => setDocumentCreatingModalOpen(false)}>
         <Panel className={styles.createDocumentPanel}>
-          <PanelHeader>
+          <PanelHeader justify="center">
             <span>Новый документ</span>
           </PanelHeader>
           <Row fullwidth>
@@ -148,7 +157,12 @@ export const Home: FunctionComponent<{}> = () => {
             />
           </Row>
           <Row fullwidth>
-            <Dropdown options={options} placeholder="Выберите дисциплину" />
+            <Dropdown
+              options={subjectDropdownOptions}
+              placeholder="Выберите дисциплину"
+              value={subjectForDocument}
+              onChange={(subject) => setSubjectForDocument(subject)}
+            />
           </Row>
           <PanelFooter>
             <Button className={styles.button} onClick={() => setDocumentCreatingModalOpen(false)}>
@@ -162,7 +176,7 @@ export const Home: FunctionComponent<{}> = () => {
       </Modal>
       <Modal isOpen={isSubjectCreatingModalOpen} onClose={() => setSubjectCreatingModalOpen(false)}>
         <Panel className={styles.createDocumentPanel}>
-          <PanelHeader>
+          <PanelHeader justify="center">
             <span>Новая дисциплина</span>
           </PanelHeader>
           <Row fullwidth>

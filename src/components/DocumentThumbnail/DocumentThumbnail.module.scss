@@ -1,0 +1,22 @@
+@import '../../styles/styles.scss';
+
+.root {
+}
+
+.name {
+  @include title;
+}
+
+.updatedAt {
+  color: $second-text-color;
+}
+
+.underlineName {
+  &:hover {
+    text-decoration: underline;
+  }
+}
+
+.clickable {
+  cursor: pointer;
+}

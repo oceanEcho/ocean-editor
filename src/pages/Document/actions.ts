@@ -1,5 +1,6 @@
 import { AnyAction } from 'redux';
 import { takeEvery } from 'redux-saga/effects';
+
 import { createRequestAction } from '../../utils/request';
 
 export const UPDATE_DOCUMENT = 'UPDATE_DOCUMENT';
@@ -53,32 +54,42 @@ export const updateDocumentError = (error: any): IUpdateDocumentError => ({
   error,
 });
 
-export const CREATE_DOCUMENT = 'CREATE_DOCUMENT';
+export const GET_DOCUMENT = 'GET_DOCUMENT';
 
-export interface ICreateDocument extends AnyAction {
-  type: typeof CREATE_DOCUMENT;
+export interface IGetDocument extends AnyAction {
+  type: typeof GET_DOCUMENT;
   request: {
-    url: string;
     method: string;
-    headers: any;
-    data: any;
+    url: string;
   };
 }
 
-export const createDocument = (data: object): ICreateDocument => {
-  const dataToRequest = JSON.stringify(data);
-
+export const getDocument = (id: string): IGetDocument => {
   return {
-    type: CREATE_DOCUMENT,
+    type: GET_DOCUMENT,
     request: {
-      url: `/document`,
-      method: 'POST',
-      headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/json',
-      },
-      data: dataToRequest,
+      method: 'GET',
+      url: `/document/${id}`,
     },
+  };
+};
+
+export const GET_DOCUMENT_SUCCESS = 'GET_DOCUMENT_SUCCESS';
+
+export interface IGetDocumentSuccess extends AnyAction {
+  type: typeof GET_DOCUMENT_SUCCESS;
+  data: any;
+}
+
+export const CLOSE_DOCUMENT = 'CLOSE_DOCUMENT';
+
+export interface ICloseDocument extends AnyAction {
+  type: typeof CLOSE_DOCUMENT;
+}
+
+export const closeDocument = (): ICloseDocument => {
+  return {
+    type: CLOSE_DOCUMENT,
   };
 };
 
@@ -86,8 +97,8 @@ export function* watchDocument() {
   const token = localStorage.getItem('token');
   const doRequest = createRequestAction(token);
 
-  yield takeEvery(CREATE_DOCUMENT, doRequest);
+  yield takeEvery(GET_DOCUMENT, doRequest);
   yield takeEvery(UPDATE_DOCUMENT, doRequest);
 }
 
-export type IDocumentActions = IUpdateDocument | ICreateDocument;
+export type IDocumentActions = IUpdateDocument | IGetDocument | IGetDocumentSuccess | ICloseDocument;

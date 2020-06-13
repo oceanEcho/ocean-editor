@@ -1,12 +1,16 @@
 import { Reducer } from 'redux';
-import { connectRouter } from 'connected-react-router'
-import combineSectionReducers from 'combine-section-reducers'
+import { connectRouter } from 'connected-react-router';
+import combineSectionReducers from 'combine-section-reducers';
 import { History } from 'history';
 
 import { app } from '../App/reducer';
+import { home } from '../pages/Home/reducer';
+import { document } from '../pages/Document/reducer';
 
 export default (history: History): Reducer =>
   combineSectionReducers<any>({
     router: connectRouter(history),
     app,
+    home,
+    document,
   });

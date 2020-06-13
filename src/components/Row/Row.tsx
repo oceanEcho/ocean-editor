@@ -9,6 +9,7 @@ interface Props {
   style?: StyleHTMLAttributes<HTMLDivElement>;
   fullwidth?: boolean;
   children: ReactNode;
+  onClick?: () => void;
 }
 
 export const Row: FunctionComponent<Props> = ({
@@ -16,13 +17,14 @@ export const Row: FunctionComponent<Props> = ({
   children,
   className = '',
   fullwidth = false,
+  onClick,
 }) => {
   const style = { justifyContent: justify };
 
   const rowClassName = cn(styles.row, { [styles.fullwidth]: fullwidth }, className);
 
   return (
-    <div className={rowClassName} style={style}>
+    <div className={rowClassName} style={style} onClick={onClick}>
       {children}
     </div>
   );

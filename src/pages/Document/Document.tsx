@@ -1,56 +1,71 @@
 import React, { useState, useCallback, useEffect } from 'react';
 import { FunctionComponent } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
 import styles from './Document.module.scss';
 
 import { Layout } from '../../components/Layout';
 import { Loader } from '../../components/Loader';
 import { CustomEditor } from '../../components/CustomEditor/CustomEditor';
-import { updateDocument } from './actions';
+import { updateDocument, getDocument, closeDocument } from './actions';
 import { Input } from '../../components/Input';
+import { documentSelector } from './reducer';
 
-export const Document: FunctionComponent<{}> = () => {
+export interface IDocumentProps {
+  id: string;
+}
+
+export const Document: FunctionComponent<IDocumentProps> = ({ id }) => {
   const dispatch = useDispatch();
 
-  const [content, setContent] = useState('');
+  useEffect(() => {
+    dispatch(getDocument(id));
+
+    return () => {
+      dispatch(closeDocument());
+    };
+  }, [dispatch, id]);
+
+  const {
+    entry: { name, content },
+  } = useSelector(documentSelector);
+
+  const [documentContent, setDocumentContent] = useState(content);
 
   const onEditorChange = useCallback((content: any, editor: any) => {
-    setContent(content);
+    setDocumentContent(content);
   }, []);
 
-  const [title, setTitle] = useState('Дисциплина: Новый документ ' + new Date().toLocaleString());
+  const [documentName, setDocumentName] = useState(name);
 
-  const onTitleChange = useCallback((value: string) => {
-    setTitle(value);
+  useEffect(() => {
+    setDocumentName(name);
+    setDocumentContent(content);
+  }, [content, name]);
+
+  const onNameChange = useCallback((value: string) => {
+    setDocumentName(value);
   }, []);
-
-  // const [discipline, setDiscipline] = useState('');
-
-  // const onAuthorChange = useCallback((value: string) => {
-  //   setDiscipline(value);
-  // }, []);
 
   const documentData = {
-    title,
-    // discipline,
-    content,
+    name: documentName,
+    content: documentContent,
   };
 
   useEffect(() => {
     const interval = setInterval(() => {
-      dispatch(updateDocument('5ecff4f6f3869f3aa82c1624', documentData));
-    }, 10000);
+      dispatch(updateDocument(id, documentData));
+    }, 1000);
     return () => clearInterval(interval);
-  }, [dispatch, documentData]);
+  }, [dispatch, documentData, id]);
 
-  const documentTitle = <Input value={title} onValueChange={onTitleChange} className={styles.titleInput} />;
+  const documentTitle = <Input value={documentName} onValueChange={onNameChange} className={styles.nameInput} />;
 
   return (
     <>
       <Loader loading />
       <Layout headerChildren={documentTitle}>
-        <CustomEditor onChange={onEditorChange} content={content} />
+        {documentContent !== undefined && <CustomEditor onChange={onEditorChange} content={documentContent} />}
       </Layout>
     </>
   );

@@ -13,6 +13,7 @@ import { Login } from '../pages/Login';
 import { PrivateRoute } from '../components/PrivateRoute/PrivateRoute';
 import { getUser } from './actions';
 import { appSelector } from './reducer';
+import { withParamsId } from '../utils/route';
 
 export interface IAppProps {
   history: History;
@@ -35,7 +36,7 @@ const App: FunctionComponent<IAppProps> = ({ history }) => {
     <div className={styles.app}>
       <ConnectedRouter history={history}>
         <Switch>
-          <PrivateRoute path={routes.DOCUMENT.path} component={Document} />
+          <PrivateRoute path={routes.DOCUMENT_ITEM.path} component={withParamsId(Document)} />
           <Route path={routes.LOGIN.path} component={Login} />
           <PrivateRoute path={routes.HOME.path} component={Home} />
         </Switch>

@@ -1,10 +1,7 @@
 import { AnyAction } from 'redux';
-import { takeEvery, put, select, takeLatest } from 'redux-saga/effects';
+import { takeEvery, takeLatest } from 'redux-saga/effects';
 
-import { appSelector, routerSelector } from './reducer';
 import { redirectToHome } from '../pages/Login/actions';
-import { push } from 'connected-react-router';
-import { routes } from './routes';
 import { createRequestAction } from '../utils/request';
 
 export const LOCATION_CHANGE = '@@router/LOCATION_CHANGE';
@@ -102,18 +99,6 @@ export function* watchApp() {
   yield takeEvery(GET_DATA, doRequest);
   yield takeLatest(GET_USER, doRequest);
   yield takeLatest(GET_USER_SUCCESS, redirectToHome);
-  yield takeLatest(LOCATION_CHANGE, onLocationChange);
-}
-
-function* onLocationChange() {
-  const { authenticated } = yield select(appSelector);
-  const {
-    location: { pathname },
-  } = yield select(routerSelector);
-
-  if (!authenticated && pathname !== routes.LOGIN.path) {
-    yield put(push(routes.LOGIN.path));
-  }
 }
 
 export type IAppActions = IGetData | IGetUserSuccess;
