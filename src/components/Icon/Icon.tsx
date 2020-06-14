@@ -1,4 +1,7 @@
 import React, { FunctionComponent } from 'react';
+import cn from 'classnames';
+
+import styles from './Icon.module.scss';
 
 import file from './assets/file.png';
 import folder from './assets/folder.png';
@@ -60,5 +63,9 @@ export const Icon: FunctionComponent<IIconProps> = ({
     };
   }
 
-  return <img className={className} src={iconMap[type]} alt={alt} style={iconSize} onClick={onClick} {...props}></img>;
+  const iconClassName = cn(styles.root, { [styles.clickable]: !!onClick }, className);
+
+  return (
+    <img className={iconClassName} src={iconMap[type]} alt={alt} style={iconSize} onClick={onClick} {...props}></img>
+  );
 };

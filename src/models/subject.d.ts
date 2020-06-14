@@ -3,4 +3,5 @@ export interface ISubject {
   name: string;
   authorId: string;
   createdAt: number;
+  documentCount: number;
 }

@@ -1,6 +1,7 @@
 import { AnyAction } from 'redux';
 import { push } from 'connected-react-router';
 import { takeEvery, put } from 'redux-saga/effects';
+import { store } from 'react-notifications-component';
 
 import { createRequestAction } from '../../utils/request';
 import { SUBJECT_LIST_ENDPOINT } from '../../api/endpoints';
@@ -176,8 +177,20 @@ export interface ICreateDocumentSuccess extends AnyAction {
 
 function* openDocument(action: AnyAction) {
   const {
-    data: { _id },
+    data: { _id, name },
   } = action;
+
+  yield store.addNotification({
+    message: `Документ "${name}" был успешно создан`,
+    type: 'success',
+    insert: 'bottom',
+    container: 'bottom-right',
+    animationIn: ['animated', 'fadeIn'],
+    animationOut: ['animated', 'fadeOut'],
+    dismiss: {
+      duration: 5000,
+    },
+  });
 
   yield put(push(`${routes.DOCUMENT.path}/${_id}`));
 }

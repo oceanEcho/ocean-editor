@@ -1,0 +1,1 @@
+export { SubjectThumbnail } from './SubjectThumbnail';

@@ -2,7 +2,7 @@ import React, { FunctionComponent, Dispatch, useCallback } from 'react';
 import { push } from 'connected-react-router';
 
 import { ISubject } from '../../models/subject';
-import { Subject } from '../Subject/Subject';
+import { SubjectThumbnail } from '../SubjectThumbnail/SubjectThumbnail';
 import { routes } from '../../App/routes';
 
 export interface ISubjectListProps {
@@ -18,11 +18,23 @@ export const SubjectList: FunctionComponent<ISubjectListProps> = ({ dispatch, su
     [dispatch]
   );
 
+  const onSubjectDeleteClick = useCallback((id: string) => {
+    console.log(id);
+  }, []);
+
   return (
     <>
-      {subjects.map((subject) => (
-        <Subject key={subject._id} subject={subject} onClick={() => onSubjectClick(subject._id)} />
-      ))}
+      {subjects.map((subject) => {
+        const { _id, documentCount } = subject;
+        return (
+          <SubjectThumbnail
+            key={_id}
+            subject={subject}
+            onClick={documentCount ? () => onSubjectClick(_id) : undefined}
+            onDeleteClick={() => onSubjectDeleteClick(_id)}
+          />
+        );
+      })}
     </>
   );
 };

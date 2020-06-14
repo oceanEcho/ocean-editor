@@ -1,4 +1,4 @@
-import React, { FunctionComponent, ReactNode, useState, useCallback } from 'react';
+import React, { FunctionComponent, ReactNode, useState, useCallback, useEffect } from 'react';
 import cn from 'classnames';
 import AnimateHeight from 'react-animate-height';
 
@@ -22,7 +22,13 @@ export const ExpandablePanel: FunctionComponent<IExpandablePanelProps> = ({
   hasContent = true,
 }) => {
   const [isOpened, setOpened] = useState(hasBeenOpened);
-  const [height, setHeight] = useState(isOpened ? 'auto' : '0');
+
+  useEffect(() => {
+    setOpened(hasBeenOpened);
+    setHeight(hasBeenOpened ? 'auto' : 0);
+  }, [hasBeenOpened]);
+
+  const [height, setHeight] = useState(isOpened ? 'auto' : 0);
 
   const onOpen = useCallback(() => {
     if (!hasContent) {
@@ -33,7 +39,7 @@ export const ExpandablePanel: FunctionComponent<IExpandablePanelProps> = ({
   }, [hasContent]);
 
   const onClose = useCallback(() => {
-    setHeight('0');
+    setHeight(0);
     setOpened(false);
   }, []);
 

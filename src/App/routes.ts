@@ -12,10 +12,10 @@ export const routes = {
     path: '/document/:id',
   },
   SUBJECT: {
-    path: '/subject/:id',
+    path: '/subject',
   },
   SUBJECT_ITEM: {
-    path: '/document/subject/:id',
+    path: '/subject/:id',
   },
   LOGIN: {
     path: '/login',

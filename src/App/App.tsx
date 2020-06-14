@@ -17,6 +17,7 @@ import { getUser } from './actions';
 import { appSelector } from './reducer';
 import { withParamsId } from '../utils/route';
 import { Documents } from '../pages/Documents';
+import { Subject } from '../pages/Subject';
 
 export interface IAppProps {
   history: History;
@@ -42,7 +43,10 @@ const App: FunctionComponent<IAppProps> = ({ history }) => {
         <Switch>
           <PrivateRoute path={routes.DOCUMENT_LIST.path} component={Documents} />
           <PrivateRoute path={routes.DOCUMENT_ITEM.path} component={withParamsId(Document)} />
+          <PrivateRoute path={routes.SUBJECT_ITEM.path} component={withParamsId(Subject)} />
+
           <Route path={routes.LOGIN.path} component={Login} />
+
           <PrivateRoute path={routes.HOME.path} component={Home} />
         </Switch>
       </ConnectedRouter>

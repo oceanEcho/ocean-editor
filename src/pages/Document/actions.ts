@@ -5,6 +5,7 @@ import { store } from 'react-notifications-component';
 import { createRequestAction } from '../../utils/request';
 import { DOCUMENT_ITEM_ENDPOINT } from '../../api/endpoints';
 import { getDocumentList } from '../Home/actions';
+import { getSubjectDocumentList } from '../Subject/actions';
 
 export const UPDATE_DOCUMENT = 'UPDATE_DOCUMENT';
 
@@ -132,9 +133,10 @@ export const closeDocument = (): ICloseDocument => {
 
 export function* onDeleteDocumentSuccess(action: AnyAction) {
   const {
-    data: { message },
+    data: { message, subjectId },
   } = action;
   yield put(getDocumentList());
+  yield put(getSubjectDocumentList(subjectId));
   yield store.addNotification({
     message,
     type: 'success',

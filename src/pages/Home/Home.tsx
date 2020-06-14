@@ -122,7 +122,11 @@ export const Home: FunctionComponent<{}> = () => {
           </Row>
           <Row fullwidth>
             <Col>
-              <ExpandablePanel title="Последние документы" hasContent={!!documentList.length} hasBeenOpened={true}>
+              <ExpandablePanel
+                title="Последние документы"
+                hasContent={!!documentList.length}
+                hasBeenOpened={!!documentList.length}
+              >
                 <DocumentList documents={documentList} dispatch={dispatch} showLinkToAll />
               </ExpandablePanel>
             </Col>
