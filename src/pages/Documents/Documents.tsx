@@ -40,7 +40,7 @@ export const Documents: FunctionComponent<{}> = () => {
   return (
     <>
       <Helmet>
-        <title>{`${appName}: все документы`}</title>
+        <title>{`${appName} - Все документы`}</title>
       </Helmet>
       <Loader loading />
       <Layout>

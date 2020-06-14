@@ -28,7 +28,7 @@ export const Login: FunctionComponent<{}> = () => {
   return (
     <>
       <Helmet>
-        <title>{`${appName}: вход`}</title>
+        <title>{`${appName} - Вход`}</title>
       </Helmet>
       <Loader loading />
       <Main className={styles.main}>

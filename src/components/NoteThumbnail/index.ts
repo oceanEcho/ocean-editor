@@ -1,0 +1,1 @@
+export { NoteThumbnail } from './NoteThumbnail';

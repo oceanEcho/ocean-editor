@@ -1,0 +1,46 @@
+@import '../../styles/styles.scss';
+
+.createDocumentPanel {
+  background-color: $ligth-color;
+  color: $main-text-color;
+  @include main-text;
+}
+
+.panelButton {
+  justify-content: center;
+  align-items: center;
+  flex-direction: row;
+  flex-wrap: wrap;
+  height: 100%;
+
+  @include hovered-link;
+
+  .panelButtonIcon {
+    margin: 4px;
+  }
+
+  .panelButtonText {
+    text-align: center;
+    @include title;
+  }
+}
+
+.titleInput {
+  border: none;
+  border-bottom: 1px solid $main-color;
+  padding: 8px;
+  width: 100%;
+}
+
+.button {
+  color: $main-text-color;
+
+  &:hover {
+    border-bottom: 1px solid $main-text-color;
+  }
+}
+
+.createDocumentPanel {
+  min-width: 500px;
+  flex-direction: column;
+}

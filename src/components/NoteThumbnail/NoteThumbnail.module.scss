@@ -1,0 +1,23 @@
+@import '../../styles/styles.scss';
+
+.root {
+  display: flex;
+  flex-direction: column;
+  padding: 8px;
+  border: 1px solid $main-color-opactity-20;
+  border-radius: 2px;
+  margin-bottom: 20px;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 8px;
+}
+
+.controls {
+  & > img {
+    margin-left: 12px;
+  }
+}

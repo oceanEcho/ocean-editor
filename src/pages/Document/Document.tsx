@@ -70,7 +70,7 @@ export const Document: FunctionComponent<IDocumentProps> = ({ id }) => {
   return (
     <>
       <Helmet>
-        <title>{`${appName}: ${documentName}`}</title>
+        <title>{`${appName} - ${documentName}`}</title>
       </Helmet>
       <Loader loading />
       <Layout headerChildren={documentTitle}>

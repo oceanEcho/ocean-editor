@@ -12,7 +12,7 @@ import { Row, Col } from '../../components/Row';
 import { Loader } from '../../components/Loader';
 
 import styles from './Home.module.scss';
-import { getDocumentList, createSubject, getSubjectList, createDocument } from './actions';
+import { getDocumentList, createSubject, getSubjectList, createDocument, createNote, getNoteList } from './actions';
 import { Modal } from '../../components/Modal';
 import { Button } from '../../components/Button';
 import { Input } from '../../components/Input';
@@ -24,6 +24,8 @@ import { homeSelector } from './reducer';
 import { SubjectList } from '../../components/SubjectList';
 import { DocumentList } from '../../components/DocumentList';
 import { appSelector } from '../../App/reducer';
+import { Textarea } from '../../components/Textarea';
+import { NoteList } from '../../components/NoteList';
 
 export const Home: FunctionComponent<{}> = () => {
   const dispatch = useDispatch();
@@ -31,11 +33,12 @@ export const Home: FunctionComponent<{}> = () => {
   const {
     config: { appName },
   } = useSelector(appSelector);
-  const { subjectlist, documentList } = useSelector(homeSelector);
+  const { subjectlist, documentList, noteList } = useSelector(homeSelector);
 
   useEffect(() => {
     dispatch(getDocumentList(5));
     dispatch(getSubjectList());
+    dispatch(getNoteList());
   }, [dispatch]);
 
   const subjectDropdownOptions: Option[] = subjectlist.map((subject) => ({
@@ -92,10 +95,36 @@ export const Home: FunctionComponent<{}> = () => {
     dispatch(createDocument(documentData));
   }, [dispatch, subjectForDocument, title]);
 
+  const [noteName, setNoteName] = useState(`Заметка ${new Date().toLocaleString()}`);
+  const [noteText, setNoteText] = useState('');
+
+  const [isNoteCreatingModalOpen, setNoteCreatingModalOpen] = useState(false);
+
+  const onNoteCreate = useCallback(() => {
+    if (!noteName || !noteText) {
+      return;
+    }
+
+    const noteData = {
+      name: noteName,
+      content: noteText,
+    };
+
+    dispatch(createNote(noteData));
+    setNoteName('');
+    setNoteText('');
+    setNoteCreatingModalOpen(false);
+  }, [dispatch, noteName, noteText]);
+
+  const onOpenNoteCreatingModal = useCallback(() => {
+    setNoteName(`Заметка ${new Date().toLocaleString()}`);
+    setNoteCreatingModalOpen(true);
+  }, []);
+
   return (
     <>
       <Helmet>
-        <title>{`${appName}: редактор конспектов`}</title>
+        <title>{`${appName} - Редактор конспектов`}</title>
       </Helmet>
       <Loader loading />
       <Layout>
@@ -108,7 +137,7 @@ export const Home: FunctionComponent<{}> = () => {
               </Panel>
             </Col>
             <Col col={4}>
-              <Panel className={styles.panelButton}>
+              <Panel className={styles.panelButton} onClick={onOpenNoteCreatingModal}>
                 <Icon className={styles.panelButtonIcon} type="edit" />
                 <span className={styles.panelButtonText}>Новая заметка</span>
               </Panel>
@@ -134,68 +163,7 @@ export const Home: FunctionComponent<{}> = () => {
           <Row fullwidth>
             <Col>
               <ExpandablePanel title="Заметки">
-                <Row fullwidth>
-                  <Col col={4}>
-                    orem ipsum dolor sit amet, consectetur adipiscing elit. Integer ac molestie libero. Nam quam odio,
-                    blandit sit amet nunc vitae, condimentum fermentum ex. Class aptent taciti sociosqu ad litora
-                    torquent per conubia nostra, per inceptos himenaeos. Sed a sem eu erat vestibulum placerat eu
-                    tincidunt orci.
-                  </Col>
-                  <Col col={4}>
-                    orem ipsum dolor sit amet, consectetur adipiscing elit. Integer ac molestie libero. Nam quam odio,
-                    blandit sit amet nunc vitae, condimentum fermentum ex. Class aptent taciti sociosqu ad litora
-                    torquent per conubia nostra, per inceptos himenaeos. Sed a sem eu erat vestibulum placerat eu
-                    tincidunt orci.
-                  </Col>
-                  <Col col={4}>
-                    orem ipsum dolor sit amet, consectetur adipiscing elit. Integer ac molestie libero. Nam quam odio,
-                    blandit sit amet nunc vitae, condimentum fermentum ex. Class aptent taciti sociosqu ad litora
-                    torquent per conubia nostra, per inceptos himenaeos. Sed a sem eu erat vestibulum placerat eu
-                    tincidunt orci.
-                  </Col>
-                  <Col col={4}>
-                    orem ipsum dolor sit amet, consectetur adipiscing elit. Integer ac molestie libero. Nam quam odio,
-                    blandit sit amet nunc vitae, condimentum fermentum ex. Class aptent taciti sociosqu ad litora
-                    torquent per conubia nostra, per inceptos himenaeos. Sed a sem eu erat vestibulum placerat eu
-                    tincidunt orci.
-                  </Col>
-                  <Col col={4}>
-                    orem ipsum dolor sit amet, consectetur adipiscing elit. Integer ac molestie libero. Nam quam odio,
-                    blandit sit amet nunc vitae, condimentum fermentum ex. Class aptent taciti sociosqu ad litora
-                    torquent per conubia nostra, per inceptos himenaeos. Sed a sem eu erat vestibulum placerat eu
-                    tincidunt orci.
-                  </Col>
-                  <Col col={4}>
-                    orem ipsum dolor sit amet, consectetur adipiscing elit. Integer ac molestie libero. Nam quam odio,
-                    blandit sit amet nunc vitae, condimentum fermentum ex. Class aptent taciti sociosqu ad litora
-                    torquent per conubia nostra, per inceptos himenaeos. Sed a sem eu erat vestibulum placerat eu
-                    tincidunt orci.
-                  </Col>
-                  <Col col={4}>
-                    orem ipsum dolor sit amet, consectetur adipiscing elit. Integer ac molestie libero. Nam quam odio,
-                    blandit sit amet nunc vitae, condimentum fermentum ex. Class aptent taciti sociosqu ad litora
-                    torquent per conubia nostra, per inceptos himenaeos. Sed a sem eu erat vestibulum placerat eu
-                    tincidunt orci.
-                  </Col>
-                  <Col col={4}>
-                    orem ipsum dolor sit amet, consectetur adipiscing elit. Integer ac molestie libero. Nam quam odio,
-                    blandit sit amet nunc vitae, condimentum fermentum ex. Class aptent taciti sociosqu ad litora
-                    torquent per conubia nostra, per inceptos himenaeos. Sed a sem eu erat vestibulum placerat eu
-                    tincidunt orci.
-                  </Col>
-                  <Col col={4}>
-                    orem ipsum dolor sit amet, consectetur adipiscing elit. Integer ac molestie libero. Nam quam odio,
-                    blandit sit amet nunc vitae, condimentum fermentum ex. Class aptent taciti sociosqu ad litora
-                    torquent per conubia nostra, per inceptos himenaeos. Sed a sem eu erat vestibulum placerat eu
-                    tincidunt orci.
-                  </Col>
-                  <Col col={4}>
-                    orem ipsum dolor sit amet, consectetur adipiscing elit. Integer ac molestie libero. Nam quam odio,
-                    blandit sit amet nunc vitae, condimentum fermentum ex. Class aptent taciti sociosqu ad litora
-                    torquent per conubia nostra, per inceptos himenaeos. Sed a sem eu erat vestibulum placerat eu
-                    tincidunt orci.
-                  </Col>
-                </Row>
+                <NoteList notes={noteList} dispatch={dispatch} />
               </ExpandablePanel>
             </Col>
           </Row>
@@ -262,7 +230,36 @@ export const Home: FunctionComponent<{}> = () => {
             </Button>
             {subject && (
               <Button className={styles.button} onClick={onSubjectCreate}>
-                Создать ▶
+                Добавить ▶
+              </Button>
+            )}
+          </PanelFooter>
+        </Panel>
+      </Modal>
+
+      <Modal isOpen={isNoteCreatingModalOpen} onClose={() => setNoteCreatingModalOpen(false)}>
+        <Panel className={styles.createDocumentPanel}>
+          <PanelHeader justify="center">
+            <span>Новая заметка</span>
+          </PanelHeader>
+          <Row fullwidth>
+            <Input
+              className={styles.titleInput}
+              placeholder="Введите название..."
+              value={noteName}
+              onValueChange={(noteName) => setNoteName(noteName)}
+            />
+          </Row>
+          <Row fullwidth>
+            <Textarea value={noteText} onValueChange={setNoteText} />
+          </Row>
+          <PanelFooter>
+            <Button className={styles.button} onClick={() => setNoteCreatingModalOpen(false)}>
+              ◀ Отмена
+            </Button>
+            {noteName && noteText && (
+              <Button className={styles.button} onClick={onNoteCreate}>
+                Добавить ▶
               </Button>
             )}
           </PanelFooter>

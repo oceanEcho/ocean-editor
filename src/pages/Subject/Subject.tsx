@@ -38,7 +38,7 @@ export const Subject: FunctionComponent<ISubjectProps> = ({ id }) => {
   return (
     <>
       <Helmet>
-        <title>{`${appName}: ${name}`}</title>
+        <title>{`${appName} - ${name}`}</title>
       </Helmet>
       <Loader loading />
       <Layout>
