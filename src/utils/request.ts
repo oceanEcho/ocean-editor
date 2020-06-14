@@ -3,7 +3,7 @@ import { select, call, put } from 'redux-saga/effects';
 import axios from 'axios';
 import { store } from 'react-notifications-component';
 
-import { appSelector, routerSelector } from '../App/reducer';
+import { appSelector } from '../App/reducer';
 
 export const createRequestAction = (token?: string | null) =>
   function* doRequest(action: AnyAction) {
