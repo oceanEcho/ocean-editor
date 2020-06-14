@@ -1,0 +1,11 @@
+@import '../../styles/styles.scss';
+
+.main {
+  align-items: center;
+  background-color: $main-color;
+}
+
+.form {
+  background-color: inherit;
+  @include no-shadow;
+}

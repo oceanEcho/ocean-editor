@@ -10,7 +10,7 @@
   color: $ligth-color;
 }
 
-.loginRow {
+.credRow {
   margin-top: 20px;
   width: 100%;
 }
@@ -29,14 +29,6 @@
   }
 }
 
-.loginButton {
+.registerButton {
   padding: 8px;
-}
-
-.registerLink {
-  color: $ligth-color;
-
-  &:hover {
-    color: $ligth-color;
-  }
 }

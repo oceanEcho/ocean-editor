@@ -10,3 +10,6 @@ export const SUBJECT_LIST_ENDPOINT = `/subject/list`;
 export const NOTE_ENDPOINT = `/note`;
 export const NOTE_ITEM_ENDPOINT = (id: string) => `/note/${id}`;
 export const NOTE_LIST_ENDPOINT = `/note/list`;
+
+export const LOGIN_ENDPOINT = `/login`;
+export const REGISTER_ENDPOINT = `/register`;

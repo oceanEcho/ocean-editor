@@ -162,7 +162,7 @@ export const Home: FunctionComponent<{}> = () => {
           </Row>
           <Row fullwidth>
             <Col>
-              <ExpandablePanel title="Заметки">
+              <ExpandablePanel title="Заметки" hasContent={!!noteList.length}>
                 <NoteList notes={noteList} dispatch={dispatch} />
               </ExpandablePanel>
             </Col>

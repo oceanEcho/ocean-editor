@@ -18,6 +18,7 @@ import { appSelector } from './reducer';
 import { withParamsId } from '../utils/route';
 import { Documents } from '../pages/Documents';
 import { Subject } from '../pages/Subject';
+import { Registration } from '../pages/Registration';
 
 export interface IAppProps {
   history: History;
@@ -46,6 +47,7 @@ const App: FunctionComponent<IAppProps> = ({ history }) => {
           <PrivateRoute path={routes.SUBJECT_ITEM.path} component={withParamsId(Subject)} />
 
           <Route path={routes.LOGIN.path} component={Login} />
+          <Route path={routes.REGISTER.path} component={Registration} />
 
           <PrivateRoute path={routes.HOME.path} component={Home} />
         </Switch>

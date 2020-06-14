@@ -20,4 +20,7 @@ export const routes = {
   LOGIN: {
     path: '/login',
   },
+  REGISTER: {
+    path: '/register',
+  },
 };

@@ -3,7 +3,7 @@ import { select, call, put } from 'redux-saga/effects';
 import axios from 'axios';
 import { store } from 'react-notifications-component';
 
-import { appSelector } from '../App/reducer';
+import { appSelector, routerSelector } from '../App/reducer';
 
 export const createRequestAction = (token?: string | null) =>
   function* doRequest(action: AnyAction) {
@@ -44,7 +44,9 @@ export const createRequestAction = (token?: string | null) =>
 
       const { status, message } = error;
 
-      if (status !== 401) {
+      const { authorized } = yield select(appSelector);
+
+      if (status !== 401 && authorized) {
         yield store.addNotification({
           message: message ? message : 'Ошибка!',
           type: 'danger',
