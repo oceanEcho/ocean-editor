@@ -12,6 +12,7 @@ import {
   NOTE_LIST_ENDPOINT,
   NOTE_ENDPOINT,
   NOTE_ITEM_ENDPOINT,
+  SUBJECT_ITEM_ENDPOINT,
 } from '../../api/endpoints';
 import { routes } from '../../App/routes';
 
@@ -98,6 +99,28 @@ export interface ICreateSubjectSuccess extends AnyAction {
   type: typeof CREATE_SUBJECT_SUCCESS;
   data: any;
 }
+
+export const DELETE_SUBJECT = 'DELETE_SUBJECT';
+
+export interface IDeleteSubject extends AnyAction {
+  type: typeof DELETE_SUBJECT;
+  request: {
+    url: string;
+    method: string;
+  };
+}
+
+export const deleteSubject = (id: string): IDeleteSubject => {
+  return {
+    type: DELETE_SUBJECT,
+    request: {
+      url: SUBJECT_ITEM_ENDPOINT(id),
+      method: 'DELETE',
+    },
+  };
+};
+
+export const DELETE_SUBJECT_SUCCESS = 'DELETE_SUBJECT_SUCCESS';
 
 export const GET_SUBJECT_LIST = 'GET_SUBJECT_LIST';
 
@@ -326,15 +349,30 @@ function* openDocument(action: AnyAction) {
   yield put(push(`${routes.DOCUMENT.path}/${_id}`));
 }
 
-function* onCreateSubjectSuccess(action: AnyAction) {
+function* onSubjectActionSuccess(action: AnyAction) {
   yield put(getSubjectList());
+
+  const actionTypeMessage =
+    action.type === CREATE_SUBJECT_SUCCESS ? 'создана' : action.type === DELETE_SUBJECT_SUCCESS ? 'удалена' : '';
+
+  yield store.addNotification({
+    message: `Дисциплина была успешно ${actionTypeMessage}`,
+    type: 'success',
+    insert: 'bottom',
+    container: 'bottom-right',
+    animationIn: ['animated', 'fadeIn'],
+    animationOut: ['animated', 'fadeOut'],
+    dismiss: {
+      duration: 5000,
+    },
+  });
 }
 
 function* onNoteActionSuccess(action: AnyAction) {
   yield put(getNoteList());
 
   const actionTypeMessage =
-    action.type === CREATE_NOTE_SUCCESS
+    action.type === CREATE_SUBJECT_SUCCESS
       ? 'создана'
       : action.type === DELETE_NOTE_SUCCESS
       ? 'удалена'
@@ -356,8 +394,7 @@ function* onNoteActionSuccess(action: AnyAction) {
 }
 
 export function* watchHome() {
-  const token = localStorage.getItem('token');
-  const doRequest = createRequestAction(token);
+  const doRequest = createRequestAction(true);
 
   yield takeEvery(CREATE_NOTE, doRequest);
   yield takeEvery(DELETE_NOTE, doRequest);
@@ -368,7 +405,9 @@ export function* watchHome() {
   yield takeEvery(GET_NOTE_LIST, doRequest);
 
   yield takeEvery(CREATE_SUBJECT, doRequest);
-  yield takeEvery(CREATE_SUBJECT_SUCCESS, onCreateSubjectSuccess);
+  yield takeEvery(DELETE_SUBJECT, doRequest);
+  yield takeEvery(DELETE_SUBJECT_SUCCESS, onSubjectActionSuccess);
+  yield takeEvery(CREATE_SUBJECT_SUCCESS, onSubjectActionSuccess);
   yield takeEvery(GET_SUBJECT_LIST, doRequest);
 
   yield takeEvery(CREATE_DOCUMENT, doRequest);

@@ -92,8 +92,7 @@ export interface IGetUserError extends AnyAction {
 }
 
 export function* watchApp() {
-  const token = localStorage.getItem('token');
-  const doRequest = createRequestAction(token);
+  const doRequest = createRequestAction(true);
 
   yield takeEvery(GET_DATA, doRequest);
   yield takeLatest(GET_USER, doRequest);

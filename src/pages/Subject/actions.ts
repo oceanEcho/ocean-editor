@@ -59,8 +59,7 @@ export interface IGetSubjectDocumentListSuccess extends AnyAction {
 }
 
 export function* watchSubject() {
-  const token = localStorage.getItem('token');
-  const doRequest = createRequestAction(token);
+  const doRequest = createRequestAction(true);
 
   yield takeEvery(GET_SUBJECT, doRequest);
   yield takeEvery(GET_SUBJECT_DOCUMENT_LIST, doRequest);

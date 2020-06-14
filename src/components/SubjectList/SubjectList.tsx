@@ -4,6 +4,7 @@ import { push } from 'connected-react-router';
 import { ISubject } from '../../models/subject';
 import { SubjectThumbnail } from '../SubjectThumbnail/SubjectThumbnail';
 import { routes } from '../../App/routes';
+import { deleteSubject } from '../../pages/Home/actions';
 
 export interface ISubjectListProps {
   dispatch: Dispatch<any>;
@@ -18,9 +19,12 @@ export const SubjectList: FunctionComponent<ISubjectListProps> = ({ dispatch, su
     [dispatch]
   );
 
-  const onSubjectDeleteClick = useCallback((id: string) => {
-    console.log(id);
-  }, []);
+  const onSubjectDeleteClick = useCallback(
+    (id: string) => {
+      dispatch(deleteSubject(id));
+    },
+    [dispatch]
+  );
 
   return (
     <>

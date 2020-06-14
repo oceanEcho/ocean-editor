@@ -151,8 +151,7 @@ export function* onDeleteDocumentSuccess(action: AnyAction) {
 }
 
 export function* watchDocument() {
-  const token = localStorage.getItem('token');
-  const doRequest = createRequestAction(token);
+  const doRequest = createRequestAction(true);
 
   yield takeEvery(GET_DOCUMENT, doRequest);
   yield takeEvery(UPDATE_DOCUMENT, doRequest);

@@ -5,19 +5,22 @@ import { store } from 'react-notifications-component';
 
 import { appSelector } from '../App/reducer';
 
-export const createRequestAction = (token?: string | null) =>
+export const createRequestAction = (authenticated: boolean = false) =>
   function* doRequest(action: AnyAction) {
     const { request, type } = action;
     const {
       config: { apiUrl },
     } = yield select(appSelector);
+
+    const token = yield localStorage.getItem('token');
+
     const apiCall = () => {
       return axios({
         ...request,
         url: `${apiUrl}${request.url}`,
         headers: {
           ...request.headers,
-          ...(token ? { Authorization: `Bearer ${token}` } : {}),
+          ...(authenticated ? { Authorization: `Bearer ${token}` } : {}),
         },
       })
         .then((response) => response.data)
