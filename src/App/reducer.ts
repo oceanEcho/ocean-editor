@@ -5,6 +5,7 @@ import { RouterState } from 'connected-react-router';
 
 export interface IAppState {
   config: {
+    appName: string;
     apiUrl: string;
   };
   test: string;
@@ -13,6 +14,7 @@ export interface IAppState {
 
 export const appInitialState: IAppState = {
   config: {
+    appName: 'Studier',
     apiUrl: 'http://localhost:4000',
   },
   test: '',

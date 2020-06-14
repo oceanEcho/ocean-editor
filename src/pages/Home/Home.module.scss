@@ -15,9 +15,7 @@
   flex-wrap: wrap;
   height: 100%;
 
-  &:hover {
-    text-decoration: underline;
-  }
+  @include hovered-link;
 
   .panelButtonIcon {
     margin: 4px;

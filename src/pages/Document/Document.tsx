@@ -10,6 +10,8 @@ import { CustomEditor } from '../../components/CustomEditor/CustomEditor';
 import { updateDocument, getDocument, closeDocument } from './actions';
 import { Input } from '../../components/Input';
 import { documentSelector } from './reducer';
+import { Helmet } from 'react-helmet';
+import { appSelector } from '../../App/reducer';
 
 export interface IDocumentProps {
   id: string;
@@ -17,6 +19,10 @@ export interface IDocumentProps {
 
 export const Document: FunctionComponent<IDocumentProps> = ({ id }) => {
   const dispatch = useDispatch();
+
+  const {
+    config: { appName },
+  } = useSelector(appSelector);
 
   useEffect(() => {
     dispatch(getDocument(id));
@@ -55,7 +61,7 @@ export const Document: FunctionComponent<IDocumentProps> = ({ id }) => {
   useEffect(() => {
     const interval = setInterval(() => {
       dispatch(updateDocument(id, documentData));
-    }, 1000);
+    }, 10000);
     return () => clearInterval(interval);
   }, [dispatch, documentData, id]);
 
@@ -63,6 +69,9 @@ export const Document: FunctionComponent<IDocumentProps> = ({ id }) => {
 
   return (
     <>
+      <Helmet>
+        <title>{`${appName}: ${documentName}`}</title>
+      </Helmet>
       <Loader loading />
       <Layout headerChildren={documentTitle}>
         {documentContent !== undefined && <CustomEditor onChange={onEditorChange} content={documentContent} />}

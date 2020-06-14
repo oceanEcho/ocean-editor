@@ -12,9 +12,7 @@
 }
 
 .underlineName {
-  &:hover {
-    text-decoration: underline;
-  }
+  @include hovered-link;
 }
 
 .clickable {

@@ -1,7 +1,10 @@
 import { AnyAction } from 'redux';
-import { takeEvery } from 'redux-saga/effects';
+import { takeEvery, put } from 'redux-saga/effects';
+import { store } from 'react-notifications-component';
 
 import { createRequestAction } from '../../utils/request';
+import { DOCUMENT_ITEM_ENDPOINT } from '../../api/endpoints';
+import { getDocumentList } from '../Home/actions';
 
 export const UPDATE_DOCUMENT = 'UPDATE_DOCUMENT';
 
@@ -21,7 +24,7 @@ export const updateDocument = (id: string, data: object): IUpdateDocument => {
   return {
     type: UPDATE_DOCUMENT,
     request: {
-      url: `/document/${id}`,
+      url: DOCUMENT_ITEM_ENDPOINT(id),
       method: 'PUT',
       headers: {
         Accept: 'application/json',
@@ -69,7 +72,7 @@ export const getDocument = (id: string): IGetDocument => {
     type: GET_DOCUMENT,
     request: {
       method: 'GET',
-      url: `/document/${id}`,
+      url: DOCUMENT_ITEM_ENDPOINT(id),
     },
   };
 };
@@ -79,6 +82,40 @@ export const GET_DOCUMENT_SUCCESS = 'GET_DOCUMENT_SUCCESS';
 export interface IGetDocumentSuccess extends AnyAction {
   type: typeof GET_DOCUMENT_SUCCESS;
   data: any;
+}
+
+export const DELETE_DOCUMENT = 'DELETE_DOCUMENT';
+
+export interface IDeleteDocument extends AnyAction {
+  type: typeof DELETE_DOCUMENT;
+  request: {
+    method: string;
+    url: string;
+  };
+}
+
+export const deleteDocument = (id: string): IDeleteDocument => {
+  return {
+    type: DELETE_DOCUMENT,
+    request: {
+      method: 'DELETE',
+      url: DOCUMENT_ITEM_ENDPOINT(id),
+    },
+  };
+};
+
+export const DELETE_DOCUMENT_SUCCESS = 'DELETE_DOCUMENT_SUCCESS';
+
+export interface IDeleteDocumentSuccess extends AnyAction {
+  type: typeof DELETE_DOCUMENT_SUCCESS;
+  data: any;
+}
+
+export const DELETE_DOCUMENT_ERROR = 'DELETE_DOCUMENT_ERROR';
+
+export interface IDeleteDocumentError extends AnyAction {
+  type: typeof DELETE_DOCUMENT_ERROR;
+  error: any;
 }
 
 export const CLOSE_DOCUMENT = 'CLOSE_DOCUMENT';
@@ -93,12 +130,58 @@ export const closeDocument = (): ICloseDocument => {
   };
 };
 
+export function* onDeleteDocumentSuccess(action: AnyAction) {
+  const {
+    data: { message },
+  } = action;
+  yield put(getDocumentList());
+  yield store.addNotification({
+    message,
+    type: 'success',
+    insert: 'bottom',
+    container: 'bottom-right',
+    animationIn: ['animated', 'fadeIn'],
+    animationOut: ['animated', 'fadeOut'],
+    dismiss: {
+      duration: 5000,
+    },
+  });
+}
+
+export function* onDeleteDocumentError(action: AnyAction) {
+  const {
+    error: { message },
+  } = action;
+  yield store.addNotification({
+    message,
+    type: 'danger',
+    insert: 'bottom',
+    container: 'bottom-right',
+    animationIn: ['animated', 'fadeIn'],
+    animationOut: ['animated', 'fadeOut'],
+    dismiss: {
+      duration: 5000,
+    },
+  });
+}
+
 export function* watchDocument() {
   const token = localStorage.getItem('token');
   const doRequest = createRequestAction(token);
 
   yield takeEvery(GET_DOCUMENT, doRequest);
   yield takeEvery(UPDATE_DOCUMENT, doRequest);
+
+  yield takeEvery(DELETE_DOCUMENT, doRequest);
+  yield takeEvery(DELETE_DOCUMENT_SUCCESS, onDeleteDocumentSuccess);
+  yield takeEvery(DELETE_DOCUMENT_ERROR, onDeleteDocumentError);
 }
 
-export type IDocumentActions = IUpdateDocument | IGetDocument | IGetDocumentSuccess | ICloseDocument;
+export type IDocumentActions =
+  | IUpdateDocument
+  | IGetDocument
+  | IGetDocumentSuccess
+  | IDeleteDocument
+  | IDeleteDocumentSuccess
+  | IDeleteDocumentError
+  | ICloseDocument;

@@ -3,3 +3,10 @@
   justify-content: center;
   align-items: center;
 }
+
+@mixin hovered-link {
+  &:hover {
+    text-decoration: underline;
+    opacity: 0.7;
+  }
+}

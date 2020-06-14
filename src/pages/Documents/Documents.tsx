@@ -1,8 +1,6 @@
 import React, { FunctionComponent, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
-import styles from './Documents.module.scss';
-
 import { homeSelector } from '../Home/reducer';
 import { getDocumentList } from '../Home/actions';
 import { Loader } from '../../components/Loader';
@@ -10,42 +8,43 @@ import { Layout } from '../../components/Layout';
 import { Content } from '../../components/Layout/Content';
 import { Row, Col } from '../../components/Row';
 import { DocumentList } from '../../components/DocumentList';
-import { Panel } from '../../components/Panel';
-import { PanelHeader } from '../../components/Panel/PanelHeader';
-import { IDocument } from '../../models/document';
+import { groupObjectArrayByKey } from '../../utils/array';
+import { ExpandablePanel } from '../../components/ExpandablePanel';
+import { Helmet } from 'react-helmet';
+import { appSelector } from '../../App/reducer';
 
 export const Documents: FunctionComponent<{}> = () => {
   const dispatch = useDispatch();
 
+  const {
+    config: { appName },
+  } = useSelector(appSelector);
   const { documentList } = useSelector(homeSelector);
 
-  let result = documentList.reduce((result: any, document: IDocument) => {
-    result[document.subjectName] = result[document.subjectName] || [];
-    result[document.subjectName].push(document);
-
-    return result;
-  }, {});
-
-  console.log(result);
+  const groupedDocuments = groupObjectArrayByKey(documentList, 'subjectName');
 
   useEffect(() => {
     dispatch(getDocumentList());
   }, [dispatch]);
 
+  const subjectPanels = groupedDocuments.map((group: any) => (
+    <Row fullwidth key={group[0].subjectId}>
+      <Col>
+        <ExpandablePanel title={group[0].subjectName}>
+          <DocumentList documents={group} dispatch={dispatch} />
+        </ExpandablePanel>
+      </Col>
+    </Row>
+  ));
+
   return (
     <>
+      <Helmet>
+        <title>{`${appName}: все документы`}</title>
+      </Helmet>
       <Loader loading />
       <Layout>
-        <Content>
-          <Row fullwidth>
-            <Col>
-              <Panel className={styles.documentListPanel}>
-                <PanelHeader underline>Все документы</PanelHeader>
-                <DocumentList documents={documentList} dispatch={dispatch} />
-              </Panel>
-            </Col>
-          </Row>
-        </Content>
+        <Content>{subjectPanels}</Content>
       </Layout>
     </>
   );

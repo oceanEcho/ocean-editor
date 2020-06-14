@@ -9,7 +9,5 @@
 
 .clickable {
   cursor: pointer;
-  &:hover {
-    text-decoration: underline;
-  }
+  @include hovered-link;
 }

@@ -2,6 +2,7 @@ import React, { useCallback, useState } from 'react';
 import { FunctionComponent, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Option } from 'react-dropdown';
+import { Helmet } from 'react-helmet';
 
 import { Layout } from '../../components/Layout';
 import { Panel } from '../../components/Panel';
@@ -22,10 +23,14 @@ import { PanelFooter } from '../../components/Panel/PanelFooter';
 import { homeSelector } from './reducer';
 import { SubjectList } from '../../components/SubjectList';
 import { DocumentList } from '../../components/DocumentList';
+import { appSelector } from '../../App/reducer';
 
 export const Home: FunctionComponent<{}> = () => {
   const dispatch = useDispatch();
 
+  const {
+    config: { appName },
+  } = useSelector(appSelector);
   const { subjectlist, documentList } = useSelector(homeSelector);
 
   useEffect(() => {
@@ -89,6 +94,9 @@ export const Home: FunctionComponent<{}> = () => {
 
   return (
     <>
+      <Helmet>
+        <title>{`${appName}: редактор конспектов`}</title>
+      </Helmet>
       <Loader loading />
       <Layout>
         <Content>
@@ -114,23 +122,76 @@ export const Home: FunctionComponent<{}> = () => {
           </Row>
           <Row fullwidth>
             <Col>
-              <ExpandablePanel title="Документы" hasContent={!!documentList.length} hasBeenOpened={true}>
-                <DocumentList documents={documentList} dispatch={dispatch} />
+              <ExpandablePanel title="Последние документы" hasContent={!!documentList.length} hasBeenOpened={true}>
+                <DocumentList documents={documentList} dispatch={dispatch} showLinkToAll />
               </ExpandablePanel>
             </Col>
           </Row>
           <Row fullwidth>
             <Col>
               <ExpandablePanel title="Заметки">
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla porttitor, ligula non pharetra eleifend,
-                lectus ex ultricies nulla, eget lobortis justo mi eget ipsum. Etiam ultrices risus at arcu pellentesque
-                lacinia. Duis euismod pellentesque mauris id porttitor. Nulla ultrices elit quis sapien commodo viverra.
-                Proin egestas mollis lectus id congue. Curabitur quis tortor ut mi vestibulum mattis. Nullam accumsan
-                enim at aliquam ultricies. Aliquam consequat lorem ut sodales dictum. In pulvinar nibh eu semper
-                vehicula. Etiam dictum varius elit, ut maximus urna porttitor et. In bibendum dictum felis, at commodo
-                metus placerat sed. Aenean fermentum aliquam eros, vitae cursus orci facilisis sit amet. Cras semper sed
-                metus eget molestie. Maecenas ac accumsan ipsum. Suspendisse lobortis, lectus at volutpat hendrerit,
-                felis leo sodales metus, a posuere tortor erat eget odio.
+                <Row fullwidth>
+                  <Col col={4}>
+                    orem ipsum dolor sit amet, consectetur adipiscing elit. Integer ac molestie libero. Nam quam odio,
+                    blandit sit amet nunc vitae, condimentum fermentum ex. Class aptent taciti sociosqu ad litora
+                    torquent per conubia nostra, per inceptos himenaeos. Sed a sem eu erat vestibulum placerat eu
+                    tincidunt orci.
+                  </Col>
+                  <Col col={4}>
+                    orem ipsum dolor sit amet, consectetur adipiscing elit. Integer ac molestie libero. Nam quam odio,
+                    blandit sit amet nunc vitae, condimentum fermentum ex. Class aptent taciti sociosqu ad litora
+                    torquent per conubia nostra, per inceptos himenaeos. Sed a sem eu erat vestibulum placerat eu
+                    tincidunt orci.
+                  </Col>
+                  <Col col={4}>
+                    orem ipsum dolor sit amet, consectetur adipiscing elit. Integer ac molestie libero. Nam quam odio,
+                    blandit sit amet nunc vitae, condimentum fermentum ex. Class aptent taciti sociosqu ad litora
+                    torquent per conubia nostra, per inceptos himenaeos. Sed a sem eu erat vestibulum placerat eu
+                    tincidunt orci.
+                  </Col>
+                  <Col col={4}>
+                    orem ipsum dolor sit amet, consectetur adipiscing elit. Integer ac molestie libero. Nam quam odio,
+                    blandit sit amet nunc vitae, condimentum fermentum ex. Class aptent taciti sociosqu ad litora
+                    torquent per conubia nostra, per inceptos himenaeos. Sed a sem eu erat vestibulum placerat eu
+                    tincidunt orci.
+                  </Col>
+                  <Col col={4}>
+                    orem ipsum dolor sit amet, consectetur adipiscing elit. Integer ac molestie libero. Nam quam odio,
+                    blandit sit amet nunc vitae, condimentum fermentum ex. Class aptent taciti sociosqu ad litora
+                    torquent per conubia nostra, per inceptos himenaeos. Sed a sem eu erat vestibulum placerat eu
+                    tincidunt orci.
+                  </Col>
+                  <Col col={4}>
+                    orem ipsum dolor sit amet, consectetur adipiscing elit. Integer ac molestie libero. Nam quam odio,
+                    blandit sit amet nunc vitae, condimentum fermentum ex. Class aptent taciti sociosqu ad litora
+                    torquent per conubia nostra, per inceptos himenaeos. Sed a sem eu erat vestibulum placerat eu
+                    tincidunt orci.
+                  </Col>
+                  <Col col={4}>
+                    orem ipsum dolor sit amet, consectetur adipiscing elit. Integer ac molestie libero. Nam quam odio,
+                    blandit sit amet nunc vitae, condimentum fermentum ex. Class aptent taciti sociosqu ad litora
+                    torquent per conubia nostra, per inceptos himenaeos. Sed a sem eu erat vestibulum placerat eu
+                    tincidunt orci.
+                  </Col>
+                  <Col col={4}>
+                    orem ipsum dolor sit amet, consectetur adipiscing elit. Integer ac molestie libero. Nam quam odio,
+                    blandit sit amet nunc vitae, condimentum fermentum ex. Class aptent taciti sociosqu ad litora
+                    torquent per conubia nostra, per inceptos himenaeos. Sed a sem eu erat vestibulum placerat eu
+                    tincidunt orci.
+                  </Col>
+                  <Col col={4}>
+                    orem ipsum dolor sit amet, consectetur adipiscing elit. Integer ac molestie libero. Nam quam odio,
+                    blandit sit amet nunc vitae, condimentum fermentum ex. Class aptent taciti sociosqu ad litora
+                    torquent per conubia nostra, per inceptos himenaeos. Sed a sem eu erat vestibulum placerat eu
+                    tincidunt orci.
+                  </Col>
+                  <Col col={4}>
+                    orem ipsum dolor sit amet, consectetur adipiscing elit. Integer ac molestie libero. Nam quam odio,
+                    blandit sit amet nunc vitae, condimentum fermentum ex. Class aptent taciti sociosqu ad litora
+                    torquent per conubia nostra, per inceptos himenaeos. Sed a sem eu erat vestibulum placerat eu
+                    tincidunt orci.
+                  </Col>
+                </Row>
               </ExpandablePanel>
             </Col>
           </Row>
@@ -168,9 +229,11 @@ export const Home: FunctionComponent<{}> = () => {
             <Button className={styles.button} onClick={() => setDocumentCreatingModalOpen(false)}>
               ◀ Отмена
             </Button>
-            <Button className={styles.button} onClick={onDocumentCreate}>
-              Создать ▶
-            </Button>
+            {title && subjectForDocument && (
+              <Button className={styles.button} onClick={onDocumentCreate}>
+                Создать ▶
+              </Button>
+            )}
           </PanelFooter>
         </Panel>
       </Modal>
@@ -180,7 +243,7 @@ export const Home: FunctionComponent<{}> = () => {
             <span>Новая дисциплина</span>
           </PanelHeader>
           <Row fullwidth>
-            <form onSubmit={onSubjectCreate}>
+            <form onSubmit={subject ? onSubjectCreate : undefined}>
               <Input
                 className={styles.titleInput}
                 placeholder="Введите название..."
@@ -193,9 +256,11 @@ export const Home: FunctionComponent<{}> = () => {
             <Button className={styles.button} onClick={() => setSubjectCreatingModalOpen(false)}>
               ◀ Отмена
             </Button>
-            <Button className={styles.button} onClick={onSubjectCreate}>
-              Создать ▶
-            </Button>
+            {subject && (
+              <Button className={styles.button} onClick={onSubjectCreate}>
+                Создать ▶
+              </Button>
+            )}
           </PanelFooter>
         </Panel>
       </Modal>

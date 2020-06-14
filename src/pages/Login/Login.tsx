@@ -9,11 +9,15 @@ import { LoginForm } from './LoginForm';
 import { Loader } from '../../components/Loader';
 import { routes } from '../../App/routes';
 import { appSelector } from '../../App/reducer';
+import { Helmet } from 'react-helmet';
 
 export const Login: FunctionComponent<{}> = () => {
   const dispatch = useDispatch();
 
-  const { authenticated } = useSelector(appSelector);
+  const {
+    authenticated,
+    config: { appName },
+  } = useSelector(appSelector);
 
   useEffect(() => {
     if (authenticated) {
@@ -23,6 +27,9 @@ export const Login: FunctionComponent<{}> = () => {
 
   return (
     <>
+      <Helmet>
+        <title>{`${appName}: вход`}</title>
+      </Helmet>
       <Loader loading />
       <Main className={styles.main}>
         <LoginForm className={styles.form} />

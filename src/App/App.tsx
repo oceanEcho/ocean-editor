@@ -3,6 +3,8 @@ import { Switch, Route } from 'react-router-dom';
 import { ConnectedRouter } from 'connected-react-router';
 import { History } from 'history';
 import { useDispatch, useSelector } from 'react-redux';
+import ReactNotification from 'react-notifications-component';
+import 'react-notifications-component/dist/theme.css';
 
 import styles from './App.module.scss';
 
@@ -35,6 +37,7 @@ const App: FunctionComponent<IAppProps> = ({ history }) => {
 
   return (
     <div className={styles.app}>
+      <ReactNotification />
       <ConnectedRouter history={history}>
         <Switch>
           <PrivateRoute path={routes.DOCUMENT_LIST.path} component={Documents} />
