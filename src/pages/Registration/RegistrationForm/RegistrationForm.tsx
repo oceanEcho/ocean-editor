@@ -55,7 +55,6 @@ export const RegistrationForm: FunctionComponent<IRegistrationFormProps> = ({ cl
           className={cn(styles.credRow, styles.input)}
           value={email}
           onValueChange={setEmail}
-          type="email"
         />
       </Row>
       <Row fullwidth>
