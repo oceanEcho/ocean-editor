@@ -148,23 +148,6 @@ export function* onDeleteDocumentSuccess(action: AnyAction) {
   });
 }
 
-export function* onDeleteDocumentError(action: AnyAction) {
-  const {
-    error: { message },
-  } = action;
-  yield store.addNotification({
-    message,
-    type: 'danger',
-    insert: 'bottom',
-    container: 'bottom-right',
-    animationIn: ['animated', 'fadeIn'],
-    animationOut: ['animated', 'fadeOut'],
-    dismiss: {
-      duration: 5000,
-    },
-  });
-}
-
 export function* watchDocument() {
   const token = localStorage.getItem('token');
   const doRequest = createRequestAction(token);
@@ -174,7 +157,6 @@ export function* watchDocument() {
 
   yield takeEvery(DELETE_DOCUMENT, doRequest);
   yield takeEvery(DELETE_DOCUMENT_SUCCESS, onDeleteDocumentSuccess);
-  yield takeEvery(DELETE_DOCUMENT_ERROR, onDeleteDocumentError);
 }
 
 export type IDocumentActions =
