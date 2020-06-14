@@ -31,7 +31,7 @@ export const Documents: FunctionComponent<{}> = () => {
     <Row fullwidth key={group[0].subjectId}>
       <Col>
         <ExpandablePanel title={group[0].subjectName}>
-          <DocumentList documents={group} dispatch={dispatch} />
+          <DocumentList documents={group} dispatch={dispatch} possibleToDelete />
         </ExpandablePanel>
       </Col>
     </Row>

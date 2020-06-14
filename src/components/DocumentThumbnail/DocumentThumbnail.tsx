@@ -32,9 +32,11 @@ export const DocumentThumbnail: FunctionComponent<IDocumentThumbnailProps> = ({
         <div className={nameClassName}>{name}</div>
         <div className={styles.updatedAt}>{`Обновлён ${new Date(updatedAt).toLocaleString()}`}</div>
       </Col>
-      <Col col={1} align="flex-end" justify="center">
-        <Icon type="trash" size="small" onClick={onDeleteClick} />
-      </Col>
+      {!!onDeleteClick && (
+        <Col col={1} align="flex-end" justify="center">
+          <Icon type="trash" size="small" onClick={onDeleteClick} />
+        </Col>
+      )}
     </Row>
   );
 };

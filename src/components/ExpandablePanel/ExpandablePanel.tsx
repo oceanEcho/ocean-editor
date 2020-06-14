@@ -1,5 +1,6 @@
 import React, { FunctionComponent, ReactNode, useState, useCallback } from 'react';
 import cn from 'classnames';
+import AnimateHeight from 'react-animate-height';
 
 import styles from './ExpandablePanel.module.scss';
 
@@ -21,16 +22,18 @@ export const ExpandablePanel: FunctionComponent<IExpandablePanelProps> = ({
   hasContent = true,
 }) => {
   const [isOpened, setOpened] = useState(hasBeenOpened);
+  const [height, setHeight] = useState(isOpened ? 'auto' : '0');
 
   const onOpen = useCallback(() => {
     if (!hasContent) {
       return;
     }
-
+    setHeight('auto');
     setOpened(true);
   }, [hasContent]);
 
   const onClose = useCallback(() => {
+    setHeight('0');
     setOpened(false);
   }, []);
 
@@ -50,7 +53,9 @@ export const ExpandablePanel: FunctionComponent<IExpandablePanelProps> = ({
           </div>
         )}
       </div>
-      {isOpened && <div className={styles.content}>{children}</div>}
+      <AnimateHeight duration={500} height={height}>
+        <div className={styles.content}>{children}</div>
+      </AnimateHeight>
     </Panel>
   );
 };

@@ -14,9 +14,15 @@ export interface IDocumentListProps {
   dispatch: Dispatch<any>;
   documents: IDocument[];
   showLinkToAll?: boolean;
+  possibleToDelete?: boolean;
 }
 
-export const DocumentList: FunctionComponent<IDocumentListProps> = ({ dispatch, documents, showLinkToAll = false }) => {
+export const DocumentList: FunctionComponent<IDocumentListProps> = ({
+  dispatch,
+  documents,
+  showLinkToAll = false,
+  possibleToDelete = false,
+}) => {
   const onDocumentClick = useCallback(
     (id: string) => {
       dispatch(push(`${routes.DOCUMENT.path}/${id}`));
@@ -38,7 +44,7 @@ export const DocumentList: FunctionComponent<IDocumentListProps> = ({ dispatch, 
           key={document._id}
           document={document}
           onClick={() => onDocumentClick(document._id)}
-          onDeleteClick={() => onDeleteClick(document._id)}
+          onDeleteClick={possibleToDelete ? () => onDeleteClick(document._id) : undefined}
         />
       ))}
       {showLinkToAll && (
