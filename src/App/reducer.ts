@@ -15,7 +15,7 @@ export interface IAppState {
 export const appInitialState: IAppState = {
   config: {
     appName: 'Studier',
-    apiUrl: 'http://localhost:4000',
+    apiUrl: 'https://studier-back.herokuapp.com',
   },
   test: '',
   authenticated: null,
