@@ -372,7 +372,7 @@ function* onNoteActionSuccess(action: AnyAction) {
   yield put(getNoteList());
 
   const actionTypeMessage =
-    action.type === CREATE_SUBJECT_SUCCESS
+    action.type === CREATE_NOTE_SUCCESS
       ? 'создана'
       : action.type === DELETE_NOTE_SUCCESS
       ? 'удалена'
