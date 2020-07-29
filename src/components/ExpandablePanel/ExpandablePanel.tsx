@@ -49,15 +49,9 @@ export const ExpandablePanel: FunctionComponent<IExpandablePanelProps> = ({
     <Panel className={cn(styles.root, className)}>
       <div className={styles.header}>
         <div>{title}</div>
-        {isOpened ? (
-          <div className={arrowStyles} onClick={onClose}>
-            ▲
-          </div>
-        ) : (
-          <div className={arrowStyles} onClick={onOpen}>
-            ▼
-          </div>
-        )}
+        <div className={arrowStyles} onClick={isOpened ? onClose : onOpen}>
+          {isOpened ? '▲' : '▼'}
+        </div>
       </div>
       <AnimateHeight duration={500} height={height}>
         <div className={styles.content}>{children}</div>
