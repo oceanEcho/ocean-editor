@@ -20,7 +20,7 @@ export const createRequestAction = (authenticated: boolean = false) =>
         url: `${apiUrl}${request.url}`,
         headers: {
           ...request.headers,
-          ...(authenticated ? { Authorization: `Bearer ${token}` } : {}),
+          ...(authenticated && token ? { Authorization: `Bearer ${token}` } : {}),
         },
       })
         .then((response) => response.data)
