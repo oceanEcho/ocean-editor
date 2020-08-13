@@ -45,10 +45,8 @@ const App: FunctionComponent<IAppProps> = ({ history }) => {
           <PrivateRoute path={routes.DOCUMENT_LIST.path} component={Documents} />
           <PrivateRoute path={routes.DOCUMENT_ITEM.path} component={withParamsId(Document)} />
           <PrivateRoute path={routes.SUBJECT_ITEM.path} component={withParamsId(Subject)} />
-
           <Route path={routes.LOGIN.path} component={Login} />
           <Route path={routes.REGISTER.path} component={Registration} />
-
           <PrivateRoute path={routes.HOME.path} component={Home} />
         </Switch>
       </ConnectedRouter>
