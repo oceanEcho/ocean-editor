@@ -1,6 +1,7 @@
 import React, { FunctionComponent, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { push } from 'connected-react-router';
+import { Helmet } from 'react-helmet';
 
 import styles from './Login.module.scss';
 
@@ -9,7 +10,6 @@ import { LoginForm } from './LoginForm';
 import { Loader } from '../../components/Loader';
 import { routes } from '../../App/routes';
 import { appSelector } from '../../App/reducer';
-import { Helmet } from 'react-helmet';
 
 export const Login: FunctionComponent<{}> = () => {
   const dispatch = useDispatch();
