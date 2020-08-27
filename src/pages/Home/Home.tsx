@@ -92,7 +92,7 @@ export const Home: FunctionComponent<{}> = () => {
       content: '',
     };
 
-    dispatch(createDocument(documentData));
+    dispatch(createDocument(documentData, '<p>text</p>'));
   }, [dispatch, subjectForDocument, title]);
 
   const [noteName, setNoteName] = useState(`Заметка ${new Date().toLocaleString()}`);

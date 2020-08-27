@@ -1,4 +1,4 @@
-import { AnyAction } from 'redux';
+import { AnyAction, Action } from 'redux';
 import { push } from 'connected-react-router';
 import { takeEvery, put } from 'redux-saga/effects';
 import { store } from 'react-notifications-component';
@@ -13,6 +13,7 @@ import {
   NOTE_ENDPOINT,
   NOTE_ITEM_ENDPOINT,
   SUBJECT_ITEM_ENDPOINT,
+  DOCUMENT_ITEM_CONTENT_ENDPOINT,
 } from '../../api/endpoints';
 import { routes } from '../../App/routes';
 
@@ -180,9 +181,12 @@ export interface ICreateDocument extends AnyAction {
     headers: any;
     data: any;
   };
+  meta: {
+    content: string;
+  };
 }
 
-export const createDocument = (data: object): ICreateDocument => {
+export const createDocument = (data: object, content: string): ICreateDocument => {
   const dataToRequest = JSON.stringify(data);
 
   return {
@@ -195,6 +199,9 @@ export const createDocument = (data: object): ICreateDocument => {
         'Content-Type': 'application/json',
       },
       data: dataToRequest,
+    },
+    meta: {
+      content,
     },
   };
 };
@@ -329,10 +336,53 @@ export const updateNote = (id: string, data: object): IUpdateNote => {
 
 export const UPDATE_NOTE_SUCCESS = 'UPDATE_NOTE_SUCCESS';
 
-function* openDocument(action: AnyAction) {
+export interface IUpdateNoteSuccess extends Action {
+  type: typeof UPDATE_NOTE_SUCCESS;
+}
+
+export const ATTACH_FILE = 'ATTACH_FILE';
+
+export interface IAttachFile extends AnyAction {
+  type: typeof ATTACH_FILE;
+  request: {
+    url: string;
+    method: string;
+    headers: any;
+    data: any;
+  };
+}
+
+export const attachFile = (id: string, content: string): IAttachFile => {
+  const dataToRequest = new FormData();
+  const blobContent = new Blob([content], {
+    type: 'text/html',
+  });
+
+  dataToRequest.append('file', blobContent, id);
+
+  return {
+    type: ATTACH_FILE,
+    request: {
+      url: DOCUMENT_ITEM_CONTENT_ENDPOINT(id),
+      method: 'POST',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'multipart/form-data',
+      },
+      data: dataToRequest,
+    },
+  };
+};
+
+function* onCreateDocumentSuccess(action: AnyAction) {
   const {
     data: { _id, name },
+    meta: { content },
   } = action;
+
+  console.log(_id, content);
+
+  yield put(attachFile(_id, content));
 
   yield store.addNotification({
     message: `Документ "${name}" был успешно создан`,
@@ -411,8 +461,10 @@ export function* watchHome() {
   yield takeEvery(GET_SUBJECT_LIST, doRequest);
 
   yield takeEvery(CREATE_DOCUMENT, doRequest);
-  yield takeEvery(CREATE_DOCUMENT_SUCCESS, openDocument);
+  yield takeEvery(CREATE_DOCUMENT_SUCCESS, onCreateDocumentSuccess);
   yield takeEvery(GET_DOCUMENT_LIST, doRequest);
+
+  yield takeEvery(ATTACH_FILE, doRequest);
 }
 
 export type IHomeActions =

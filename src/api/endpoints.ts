@@ -1,6 +1,7 @@
 export const DOCUMENT_ENDPOINT = `/document`;
 export const DOCUMENT_ITEM_ENDPOINT = (id: string) => `/document/${id}`;
 export const DOCUMENT_LIST_ENDPOINT = `/document/list`;
+export const DOCUMENT_ITEM_CONTENT_ENDPOINT = (id: string) => `/document/${id}/file`;
 
 export const SUBJECT_ENDPOINT = `/subject`;
 export const SUBJECT_ITEM_ENDPOINT = (id: string) => `/subject/${id}`;

@@ -7,7 +7,7 @@ import { appSelector } from '../App/reducer';
 
 export const createRequestAction = (authenticated: boolean = false) =>
   function* doRequest(action: AnyAction) {
-    const { request, type } = action;
+    const { request, type, meta } = action;
     const {
       config: { apiUrl },
     } = yield select(appSelector);
@@ -19,7 +19,7 @@ export const createRequestAction = (authenticated: boolean = false) =>
         ...request,
         url: `${apiUrl}${request.url}`,
         headers: {
-          ...request.headers,
+          ...(request.headers ? request.headers : {}),
           ...(authenticated && token ? { Authorization: `Bearer ${token}` } : {}),
         },
       })
@@ -34,6 +34,7 @@ export const createRequestAction = (authenticated: boolean = false) =>
       const successAction = (data: any) => ({
         type: `${type}_SUCCESS`,
         data,
+        meta,
       });
 
       yield put(successAction(data));
@@ -41,6 +42,7 @@ export const createRequestAction = (authenticated: boolean = false) =>
       const errorAction = (error: any) => ({
         type: `${type}_ERROR`,
         error,
+        meta,
       });
 
       yield put(errorAction(error));
