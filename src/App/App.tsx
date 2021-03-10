@@ -9,7 +9,7 @@ import 'react-notifications-component/dist/theme.css';
 import styles from './App.module.scss';
 
 import { routes } from './routes';
-import { Document } from '../pages/Document/Document';
+import { Document } from '../pages/Document';
 import { Home } from '../pages/Home';
 import { Login } from '../pages/Login';
 import { PrivateRoute } from '../components/PrivateRoute/PrivateRoute';
